@@ -1,0 +1,23 @@
+Package: Hausdorff
+Type: Package
+Version: 0.0.1
+Title: Computing P-Values of the Hausdorff Test 
+Author: Dimitrina S. Dimitrova <D.Dimitrova@city.ac.uk>,
+        Yun Jia <yunjia2019@gmail.com>,
+        Vladimir K. Kaishev <Vladimir.Kaishev.1@city.ac.uk>
+Maintainer: Yun Jia <yunjia2019@gmail.com>
+Depends: R (>= 3.3.0)
+SystemRequirements: fftw3 (>=3.3.4)
+Copyright: Copyright holders of FFTW3: Copyright (c) 2003, 2007-11
+        Matteo Frigo; Copyright (c) 2003, 2007-11 Massachusetts
+        Institute of Technology
+Description: Contains functions to compute p-values for the Hausdorff Test. To cite this package in publication: Dimitrina S. Dimitrova, Yun Jia and Vladimir K. Kaishev (2025). The R functions KS2sample and Kuiper2sample: Efficient Exact Calculation of P-values of the Two-sample Kolmogorov-Smirnov and Kuiper Tests. submitted.
+License: GPL (>= 2.0)
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp (>= 0.12.12), KSgeneral
+LinkingTo: Rcpp, RcppEigen
+NeedsCompilation: yes
+Packaged: 2024-05-20 17:22:45 UTC; jy
+Repository: CRAN
+Date/Publication: 2024-05-18 19:10:09 UTC

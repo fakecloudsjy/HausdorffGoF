@@ -1,0 +1,5 @@
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
+importFrom("KSgeneral", "ks_c_cdf_Rcpp")
+importFrom("stats", "ecdf", "optim", "runif", "uniroot")
+importFrom("utils", "combn", "write.table")
