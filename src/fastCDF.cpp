@@ -171,22 +171,28 @@ Eigen::ArrayXd fastCDF(const ArrayXXd &p_x, const vector< shared_ptr<ArrayXd> > 
 
 // Wrapper function for R
 // [[Rcpp::export]]
-NumericVector fastCDF_wrapper(NumericMatrix p_x_r, NumericMatrix p_z_r, NumericVector p_y_r) {
+NumericVector fastCDF_wrapper(NumericMatrix p_x_r, Rcpp::List p_z_r, NumericVector p_y_r) 
+{
   // Convert R inputs to Eigen types
   // ------------------------------------------------------------
   Map<ArrayXXd> p_x(as<Map<ArrayXXd>>(p_x_r));
-  
-  // Convert NumericMatrix (p_z_r) to vector<shared_ptr<ArrayXd>>
-  std::vector<std::shared_ptr<ArrayXd>> p_z;
-  int ncols = p_z_r.ncol();
-  for (int i = 0; i < ncols; ++i) {
-    // Extract column i as a NumericVector (view, no copy)
-    NumericVector z_col = p_z_r(_, i);
-    // Copy data to Eigen ArrayXd and wrap in shared_ptr
-    p_z.push_back(
-      std::make_shared<ArrayXd>(Map<ArrayXd>(z_col.begin(), z_col.size()))
-    );
+
+  std::vector<std::shared_ptr<Eigen::ArrayXd>> p_z;
+  //Convert List p_z_r -> vector<shared_ptr<ArrayXd>>  
+  for (auto& elem : p_z_r) 
+  {
+        // Extract element as Rcpp numeric vector
+        Rcpp::NumericVector r_vec(elem);
+        
+        // Convert to Eigen ArrayXd (copies data)
+        Eigen::ArrayXd arr = Rcpp::as<Eigen::ArrayXd>(r_vec);
+        
+        // Create a shared_ptr to a heap-allocated copy
+        std::shared_ptr<Eigen::ArrayXd> ptr = std::make_shared<Eigen::ArrayXd>(arr);
+        
+        p_z.push_back(ptr); // Add to the vector
   }
+
   
   // Convert NumericVector (p_y_r) to ArrayXd (no copy)
   Map<ArrayXd> p_y(as<Map<ArrayXd>>(p_y_r));

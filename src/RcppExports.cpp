@@ -12,13 +12,13 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // fastCDF_wrapper
-NumericVector fastCDF_wrapper(NumericMatrix p_x_r, NumericMatrix p_z_r, NumericVector p_y_r);
+NumericVector fastCDF_wrapper(NumericMatrix p_x_r, Rcpp::List p_z_r, NumericVector p_y_r);
 RcppExport SEXP _Hausdorff_fastCDF_wrapper(SEXP p_x_rSEXP, SEXP p_z_rSEXP, SEXP p_y_rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type p_x_r(p_x_rSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type p_z_r(p_z_rSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type p_z_r(p_z_rSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type p_y_r(p_y_rSEXP);
     rcpp_result_gen = Rcpp::wrap(fastCDF_wrapper(p_x_r, p_z_r, p_y_r));
     return rcpp_result_gen;
