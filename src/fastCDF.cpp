@@ -87,7 +87,7 @@ ArrayXd localSumCalc(const ArrayXXd &p_x,
 /// \param p_z  rectilinear points
 /// \param p_y  estimate for each p_x point
 /// \return  for each point of the grid return the CDF
-// [[Rcpp::export]]
+
 Eigen::ArrayXd fastCDF(const ArrayXXd &p_x, const vector< shared_ptr<ArrayXd> >    &p_z, const ArrayXd &p_y)
 {
     // store nbpt per dimension before
@@ -169,3 +169,31 @@ Eigen::ArrayXd fastCDF(const ArrayXXd &p_x, const vector< shared_ptr<ArrayXd> > 
 }
 
 
+// Wrapper function for R
+// [[Rcpp::export]]
+NumericVector fastCDF_wrapper(NumericMatrix p_x_r, NumericMatrix p_z_r, NumericVector p_y_r) {
+  // Convert R inputs to Eigen types
+  // ------------------------------------------------------------
+  Map<ArrayXXd> p_x(as<Map<ArrayXXd>>(p_x_r));
+  
+  // Convert NumericMatrix (p_z_r) to vector<shared_ptr<ArrayXd>>
+  std::vector<std::shared_ptr<ArrayXd>> p_z;
+  int ncols = p_z_r.ncol();
+  for (int i = 0; i < ncols; ++i) {
+    // Extract column i as a NumericVector (view, no copy)
+    NumericVector z_col = p_z_r(_, i);
+    // Copy data to Eigen ArrayXd and wrap in shared_ptr
+    p_z.push_back(
+      std::make_shared<ArrayXd>(Map<ArrayXd>(z_col.begin(), z_col.size()))
+    );
+  }
+  
+  // Convert NumericVector (p_y_r) to ArrayXd (no copy)
+  Map<ArrayXd> p_y(as<Map<ArrayXd>>(p_y_r));
+  
+  // Call the Eigen-based function
+  ArrayXd result = fastCDF(p_x, p_z, p_y);
+  
+  // Convert Eigen result to Rcpp NumericVector
+  return NumericVector(result.data(), result.data() + result.size());
+}

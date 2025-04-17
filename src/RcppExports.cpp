@@ -11,35 +11,35 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// fastCDF
-ArrayXd fastCDF(const ArrayXXd& p_x, const vector< shared_ptr<ArrayXd> >& p_z, const ArrayXd& p_y);
-RcppExport SEXP _Hausdorff_fastCDF(SEXP p_xSEXP, SEXP p_zSEXP, SEXP p_ySEXP) {
+// fastCDF_wrapper
+NumericVector fastCDF_wrapper(NumericMatrix p_x_r, NumericMatrix p_z_r, NumericVector p_y_r);
+RcppExport SEXP _Hausdorff_fastCDF_wrapper(SEXP p_x_rSEXP, SEXP p_z_rSEXP, SEXP p_y_rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const ArrayXXd& >::type p_x(p_xSEXP);
-    Rcpp::traits::input_parameter< const vector< shared_ptr<ArrayXd> >& >::type p_z(p_zSEXP);
-    Rcpp::traits::input_parameter< const ArrayXd& >::type p_y(p_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(fastCDF(p_x, p_z, p_y));
+    Rcpp::traits::input_parameter< NumericMatrix >::type p_x_r(p_x_rSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type p_z_r(p_z_rSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p_y_r(p_y_rSEXP);
+    rcpp_result_gen = Rcpp::wrap(fastCDF_wrapper(p_x_r, p_z_r, p_y_r));
     return rcpp_result_gen;
 END_RCPP
 }
-// fastCDFOnSample
-ArrayXd fastCDFOnSample(const Eigen::ArrayXXd& p_x, const Eigen::ArrayXd& p_y);
-RcppExport SEXP _Hausdorff_fastCDFOnSample(SEXP p_xSEXP, SEXP p_ySEXP) {
+// fastCDFOnSample_wrapper
+NumericVector fastCDFOnSample_wrapper(NumericMatrix p_x_r, NumericVector p_y_r);
+RcppExport SEXP _Hausdorff_fastCDFOnSample_wrapper(SEXP p_x_rSEXP, SEXP p_y_rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::ArrayXXd& >::type p_x(p_xSEXP);
-    Rcpp::traits::input_parameter< const Eigen::ArrayXd& >::type p_y(p_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(fastCDFOnSample(p_x, p_y));
+    Rcpp::traits::input_parameter< NumericMatrix >::type p_x_r(p_x_rSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p_y_r(p_y_rSEXP);
+    rcpp_result_gen = Rcpp::wrap(fastCDFOnSample_wrapper(p_x_r, p_y_r));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_Hausdorff_fastCDF", (DL_FUNC) &_Hausdorff_fastCDF, 3},
-    {"_Hausdorff_fastCDFOnSample", (DL_FUNC) &_Hausdorff_fastCDFOnSample, 2},
+    {"_Hausdorff_fastCDF_wrapper", (DL_FUNC) &_Hausdorff_fastCDF_wrapper, 3},
+    {"_Hausdorff_fastCDFOnSample_wrapper", (DL_FUNC) &_Hausdorff_fastCDFOnSample_wrapper, 2},
     {NULL, NULL, 0}
 };
 

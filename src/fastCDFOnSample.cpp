@@ -4,6 +4,8 @@
 #include <RcppEigen.h>
 #include <Rcpp.h>
 #include "nDDominanceAlone.h"
+#include <vector>
+#include <memory>
 
 // [[Rcpp::depends(RcppEigen)]]
 
@@ -11,7 +13,6 @@ using namespace Eigen ;
 using namespace Rcpp;
 
 
-// [[Rcpp::export]]
 Eigen::ArrayXd fastCDFOnSample(const Eigen::ArrayXXd &p_x, const Eigen::ArrayXd &p_y)
 {
 
@@ -23,4 +24,19 @@ Eigen::ArrayXd fastCDFOnSample(const Eigen::ArrayXXd &p_x, const Eigen::ArrayXd 
     return cdfDivid / p_y.size();
 }
 
-
+// Wrapper function for R
+// [[Rcpp::export]]
+NumericVector fastCDFOnSample_wrapper(NumericMatrix p_x_r, NumericVector p_y_r) {
+  // Convert R inputs to Eigen types (no copy)
+  // ------------------------------------------------------------
+  Map<ArrayXXd> p_x(as<Map<ArrayXXd>>(p_x_r));
+  
+  Map<ArrayXd> p_y(as<Map<ArrayXd>>(p_y_r));
+  
+  // ------------------------------------------------------------
+  ArrayXd result = fastCDFOnSample(p_x, p_y);
+  
+  // Convert Eigen result to Rcpp NumericVector (safe copy)
+  // ------------------------------------------------------------
+  return NumericVector(result.data(), result.data() + result.size());
+}
