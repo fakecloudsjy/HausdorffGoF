@@ -21,3 +21,4 @@ NeedsCompilation: yes
 Packaged: 2024-05-20 17:22:45 UTC; jy
 Repository: CRAN
 Date/Publication: 2024-05-18 19:10:09 UTC
+Note: Includes code from the StOpt library (https://gitlab.com/stochastic-control/StOpt), licensed under the GNU Lesser General Public License (LGPL-3).
