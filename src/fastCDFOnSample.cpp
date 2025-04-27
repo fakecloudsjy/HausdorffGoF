@@ -26,12 +26,12 @@ Eigen::ArrayXd fastCDFOnSample(const Eigen::ArrayXXd &p_x, const Eigen::ArrayXd 
 
 // Wrapper function for R
 // [[Rcpp::export]]
-NumericVector fastCDFOnSample_wrapper(NumericMatrix p_x_r, NumericVector p_y_r) {
+NumericVector fastCDFOnSample_Rcpp(NumericMatrix p_x_r) {
   // Convert R inputs to Eigen types (no copy)
   // ------------------------------------------------------------
   Map<ArrayXXd> p_x(as<Map<ArrayXXd>>(p_x_r));
   
-  Map<ArrayXd> p_y(as<Map<ArrayXd>>(p_y_r));
+  ArrayXd p_y = ArrayXd::Ones(p_x.cols());
   
   // ------------------------------------------------------------
   ArrayXd result = fastCDFOnSample(p_x, p_y);

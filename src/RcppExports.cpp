@@ -11,35 +11,73 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// fastCDF_wrapper
-NumericVector fastCDF_wrapper(NumericMatrix p_x_r, Rcpp::List p_z_r, NumericVector p_y_r);
-RcppExport SEXP _Hausdorff_fastCDF_wrapper(SEXP p_x_rSEXP, SEXP p_z_rSEXP, SEXP p_y_rSEXP) {
+// Hausdorff45_Rcpp
+double Hausdorff45_Rcpp(NumericVector a, NumericVector b);
+RcppExport SEXP _Hausdorff_Hausdorff45_Rcpp(SEXP aSEXP, SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    rcpp_result_gen = Rcpp::wrap(Hausdorff45_Rcpp(a, b));
+    return rcpp_result_gen;
+END_RCPP
+}
+// Hausdorff_Cpp
+double Hausdorff_Cpp(NumericVector a, NumericVector b);
+RcppExport SEXP _Hausdorff_Hausdorff_Cpp(SEXP aSEXP, SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    rcpp_result_gen = Rcpp::wrap(Hausdorff_Cpp(a, b));
+    return rcpp_result_gen;
+END_RCPP
+}
+// hsearch_Rcpp
+double hsearch_Rcpp(NumericMatrix x_proj, NumericMatrix y_proj, bool boundary);
+RcppExport SEXP _Hausdorff_hsearch_Rcpp(SEXP x_projSEXP, SEXP y_projSEXP, SEXP boundarySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x_proj(x_projSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y_proj(y_projSEXP);
+    Rcpp::traits::input_parameter< bool >::type boundary(boundarySEXP);
+    rcpp_result_gen = Rcpp::wrap(hsearch_Rcpp(x_proj, y_proj, boundary));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fastCDF_Rcpp
+NumericVector fastCDF_Rcpp(NumericMatrix p_x_r, Rcpp::List p_z_r);
+RcppExport SEXP _Hausdorff_fastCDF_Rcpp(SEXP p_x_rSEXP, SEXP p_z_rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type p_x_r(p_x_rSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type p_z_r(p_z_rSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type p_y_r(p_y_rSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastCDF_wrapper(p_x_r, p_z_r, p_y_r));
+    rcpp_result_gen = Rcpp::wrap(fastCDF_Rcpp(p_x_r, p_z_r));
     return rcpp_result_gen;
 END_RCPP
 }
-// fastCDFOnSample_wrapper
-NumericVector fastCDFOnSample_wrapper(NumericMatrix p_x_r, NumericVector p_y_r);
-RcppExport SEXP _Hausdorff_fastCDFOnSample_wrapper(SEXP p_x_rSEXP, SEXP p_y_rSEXP) {
+// fastCDFOnSample_Rcpp
+NumericVector fastCDFOnSample_Rcpp(NumericMatrix p_x_r);
+RcppExport SEXP _Hausdorff_fastCDFOnSample_Rcpp(SEXP p_x_rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type p_x_r(p_x_rSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type p_y_r(p_y_rSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastCDFOnSample_wrapper(p_x_r, p_y_r));
+    rcpp_result_gen = Rcpp::wrap(fastCDFOnSample_Rcpp(p_x_r));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_Hausdorff_fastCDF_wrapper", (DL_FUNC) &_Hausdorff_fastCDF_wrapper, 3},
-    {"_Hausdorff_fastCDFOnSample_wrapper", (DL_FUNC) &_Hausdorff_fastCDFOnSample_wrapper, 2},
+    {"_Hausdorff_Hausdorff45_Rcpp", (DL_FUNC) &_Hausdorff_Hausdorff45_Rcpp, 2},
+    {"_Hausdorff_Hausdorff_Cpp", (DL_FUNC) &_Hausdorff_Hausdorff_Cpp, 2},
+    {"_Hausdorff_hsearch_Rcpp", (DL_FUNC) &_Hausdorff_hsearch_Rcpp, 3},
+    {"_Hausdorff_fastCDF_Rcpp", (DL_FUNC) &_Hausdorff_fastCDF_Rcpp, 2},
+    {"_Hausdorff_fastCDFOnSample_Rcpp", (DL_FUNC) &_Hausdorff_fastCDFOnSample_Rcpp, 1},
     {NULL, NULL, 0}
 };
 
