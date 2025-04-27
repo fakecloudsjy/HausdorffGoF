@@ -65,12 +65,9 @@ Hausdorff45 = function(a,b){
       }
   }
 
-  out = c(max(abs(H_vec)),
-          max(c(H_vec,0)) - min(c(H_vec,0)),
-          mean(abs(H_vec)),
-          mean(H_vec^2)
+  out = c(max(abs(H_vec))/2
           )
-  names(out) = c("H","HKuiper","HCVM","HW")
+
   return(out)
 }
 
