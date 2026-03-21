@@ -9,7 +9,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double Hausdorff45_Rcpp(NumericVector a, NumericVector b) {
+double H_stat_2s_1d_tr(NumericVector a, NumericVector b) {
   // Step 1: Compute frequency counts for unique elements
   std::map<double, int> a_counts, b_counts;
   for (double val : a) a_counts[val]++;
@@ -127,166 +127,157 @@ double Hausdorff45_Rcpp(NumericVector a, NumericVector b) {
   return max_H / 2.0;
 }
 
-// Helper function to compute ECDF values
-std::vector<double> compute_ecdf(const std::vector<double>& data, 
+//to compute ECDF values
+std::vector<double> compute_ecdf1d(const std::vector<double>& data, 
                                 const std::vector<double>& points) {
+    // both has to be sorted
     std::vector<double> ecdf_values;
+    int n = data.size(); 
+    int start = 0, count = 0;
     for (double p : points) {
-        int count = 0;
-        for (double d : data) {
-            if (d <= p) count++;
+        for (int i = start; i < n; ++i) {
+            if (data[i] <= p) 
+            {
+               count++;
+               start++;
+            }
         }
-        ecdf_values.push_back(static_cast<double>(count) / data.size());
+        ecdf_values.push_back(static_cast<double>(count) / n);
     }
     return ecdf_values;
 }
 
+
 // [[Rcpp::export]]
-double Hausdorff_Cpp(NumericVector a, NumericVector b) {
-    // Convert inputs to sorted unique vectors
-    std::vector<double> a_vec(a.begin(), a.end());
-    std::vector<double> b_vec(b.begin(), b.end());
+double H_stat_2s_1d_p(NumericVector a, NumericVector b) {
+  // Convert inputs to sorted unique vectors
+  std::vector<double> a_vec(a.begin(), a.end());
+  std::vector<double> b_vec(b.begin(), b.end());
+  
+  std::sort(a_vec.begin(), a_vec.end());
+  std::sort(b_vec.begin(), b_vec.end());
+
+  // Create joint sorted vector
+  std::vector<double> xjoint(a_vec);
+  xjoint.insert(xjoint.end(), b_vec.begin(), b_vec.end());
+  std::sort(xjoint.begin(), xjoint.end());
+  auto last = std::unique(xjoint.begin(), xjoint.end());
+  xjoint.erase(last, xjoint.end());
+  
+  // Compute ECDF values
+  std::vector<double> ay1 = compute_ecdf1d(a_vec, xjoint);
+  std::vector<double> ay2 = compute_ecdf1d(b_vec, xjoint);
+  
     
-    std::sort(a_vec.begin(), a_vec.end());
-    std::sort(b_vec.begin(), b_vec.end());
-    
-    auto last_a = std::unique(a_vec.begin(), a_vec.end());
-    auto last_b = std::unique(b_vec.begin(), b_vec.end());
-    a_vec.erase(last_a, a_vec.end());
-    b_vec.erase(last_b, b_vec.end());
-
-    // Create joint sorted vector
-    std::vector<double> xjoint(a_vec);
-    xjoint.insert(xjoint.end(), b_vec.begin(), b_vec.end());
-    std::sort(xjoint.begin(), xjoint.end());
-    auto last = std::unique(xjoint.begin(), xjoint.end());
-    xjoint.erase(last, xjoint.end());
-
-    // Compute ECDF values
-    std::vector<double> ay1 = compute_ecdf(a_vec, xjoint);
-    std::vector<double> ay2 = compute_ecdf(b_vec, xjoint);
-
-    // Build x1/y1 and x2/y2 vectors
-    std::vector<double> x1, y1, x2, y2;
-    double tempy1 = 0.0, tempy2 = 0.0;
-    
-    for (size_t i = 0; i < xjoint.size(); ++i) {
-        double current_max = std::max(ay1[i], ay2[i]);
-        if (current_max > tempy1) {
-            tempy1 = current_max;
-            x1.push_back(xjoint[i]);
-            y1.push_back(tempy1);
-        }
-        
-        double current_min = std::min(ay1[i], ay2[i]);
-        if (current_min > tempy2) {
-            tempy2 = current_min;
-            x2.push_back(xjoint[i]);
-            y2.push_back(tempy2);
-        }
-    }
-
-    // Extend x1/y1 and x2/y2
-    size_t m1 = x1.size();
-    size_t m2 = x2.size();
-    std::vector<double> new_x1, new_y1, new_x2, new_y2;
-
-    // Process x1/y1
-    for (size_t i = 0; i < 2*m1; ++i) {
-        size_t idx = (i + 1)/2 - 1;
-        new_x1.push_back(x1[idx]);
-        new_y1.push_back(y1[idx]);
-    }
-    new_x1.push_back(xjoint.back());
-    new_y1.insert(new_y1.begin(), 0.0);
-
-    // Process x2/y2
-    new_x2.push_back(xjoint[0]);
-    for (size_t i = 0; i < 2*m2; ++i) {
-        size_t idx = (i + 1)/2 - 1;
-        new_x2.push_back(x2[idx]);
-        new_y2.push_back(y2[idx]);
-    }
-    new_y2.push_back(1.0);
-
-    // Update sizes
-    m1 = new_x1.size();
-    m2 = new_x2.size();
-
-    // Swap logic
-    if (m1 > m2) {
-        std::swap(new_x1, new_x2);
-        std::swap(new_y1, new_y2);
-        std::reverse(new_x1.begin(), new_x1.end());
-        std::reverse(new_x2.begin(), new_x2.end());
-        std::reverse(new_y1.begin(), new_y1.end());
-        std::reverse(new_y2.begin(), new_y2.end());
-        
-        for (auto& x : new_x1) x = -x;
-        for (auto& x : new_x2) x = -x;
-        for (auto& y : new_y1) y = 1.0 - y;
-        for (auto& y : new_y2) y = 1.0 - y;
-        
-        std::swap(m1, m2);
-    }
-
-    // Calculate parameters
-    std::vector<double> par1, par2;
-    for (size_t i = 1; i < m1; i += 2) {
-        par1.push_back(new_x1[i] + new_y1[i]);
-    }
-    for (size_t i = 0; i < m2; ++i) {
-        par2.push_back(new_x2[i] + new_y2[i]);
-    }
-
-    // Match parameters
-    std::vector<double> combined(par1);
-    combined.insert(combined.end(), par2.begin(), par2.end());
-    std::sort(combined.begin(), combined.end());
-    
-    std::vector<int> m;
-    for (double p : par1) {
-        auto it = std::lower_bound(combined.begin(), combined.end(), p);
-        m.push_back(it - combined.begin() + 1);
-    }
-
-    // Process matches
-    std::map<int, int> counts;
-    for (int val : m) counts[val]++;
-    
-    std::vector<int> temp2;
-    for (auto& pair : counts) {
-        if (pair.second > 1) temp2.push_back(pair.first);
+  auto last_a = std::unique(a_vec.begin(), a_vec.end(), [](double a, double b){ return abs(a-b)<1e-15 ;});
+  auto last_b = std::unique(b_vec.begin(), b_vec.end(), [](double a, double b){ return abs(a-b)<1e-15 ;});
+  a_vec.erase(last_a, a_vec.end());
+  b_vec.erase(last_b, b_vec.end());
+  
+  // Build x1/y1 and x2/y2 vectors
+  std::vector<double> x1, y1, x2, y2;
+  double tempy1 = 0.0, tempy2 = 0.0;
+  for (int i = 0; i < xjoint.size(); ++i) {
+    double current_max = std::max(ay1[i], ay2[i]);
+    if (current_max > tempy1) {
+      tempy1 = current_max;
+      x1.push_back(xjoint[i]);
+      y1.push_back(tempy1);
     }
     
-    bool Logic1 = !temp2.empty();
-    if (Logic1) {
-        std::vector<int> temp3;
-        int sum = 0;
-        for (auto& pair : counts) {
-            sum += pair.second;
-            temp3.push_back(sum);
-        }
-        // ... (additional processing for duplicates)
-    }
-
-    // Calculate batches and H_vec
-    std::vector<int> temp;
-    for (size_t i = 1; i < m.size(); ++i) {
-        if (m[i] - m[i-1] > 1) temp.push_back(i);
-    }
-    temp.push_back(m.size());
     
-    std::vector<double> H_vec;
-    for (size_t i = 0; i < temp.size(); ++i) {
-        int idx = temp[i];
-        int ibatch = m[idx-1] - idx;
-        if (ibatch % 2 == 1) {
-            H_vec.push_back(new_y1[2*idx] - new_y2[ibatch+1]);
+    double current_min = std::min(ay1[i], ay2[i]);
+    if (current_min > tempy2) {
+      x2.push_back(xjoint[i]);
+      y2.push_back(tempy2);
+      tempy2 = current_min;
+    }
+  }
+  
+  // Extend x1/y1 and x2/y2
+  int m1 = x1.size();
+  int m2 = x2.size();
+  std::vector<double> new_x1, new_y1, new_x2, new_y2;
+  
+  // Process x1/y1
+  for (int i = 0; i < 2*m1; ++i) {
+    int idx = i/2;
+    new_x1.push_back(x1[idx]);
+    new_y1.push_back(y1[idx]);
+  }
+  new_x1.push_back(xjoint.back());
+  new_y1.insert(new_y1.begin(), 0.0);
+  
+  // Process x2/y2
+  new_x2.push_back(xjoint[0]);
+  for (int i = 0; i < 2*m2; ++i) {
+    int idx = i/2;
+    new_x2.push_back(x2[idx]);
+    new_y2.push_back(y2[idx]);
+  }
+  new_y2.push_back(1.0);
+  
+  // Update sizes
+  m1 = new_x1.size();
+  m2 = new_x2.size();
+  
+  // Swap logic
+  if (m1 > m2) {
+    std::swap(new_x1, new_x2);
+    std::swap(new_y1, new_y2);
+    std::reverse(new_x1.begin(), new_x1.end());
+    std::reverse(new_x2.begin(), new_x2.end());
+    std::reverse(new_y1.begin(), new_y1.end());
+    std::reverse(new_y2.begin(), new_y2.end());
+    
+    for (auto& x : new_x1) x = -x;
+    for (auto& x : new_x2) x = -x;
+    for (auto& y : new_y1) y = 1.0 - y;
+    for (auto& y : new_y2) y = 1.0 - y;
+    
+    std::swap(m1, m2);
+  }
+
+  // checked!
+  // Calculate parameters
+  std::vector<double> par1, par2;
+  for (int i = 1; i < m1; i += 2) {
+    par1.push_back(new_x1[i] + new_y1[i]);
+  }
+
+  
+  // checked!
+  for (int i = 0; i < m2; ++i) {
+    par2.push_back(new_x2[i] + new_y2[i]);
+  }
+  double h = 0;
+  int loc = 0, i = 0, start = 0, end = 0, batch = 0;
+  bool newbatch = true, bool_change = false;
+    for (int j = 0; (j < par2.size()) && (i < par1.size());){
+      
+      if(par1[i]> par2[j]){
+        bool_change = (batch == j);
+        j++;
+        newbatch = true;
+      } else {
+        bool_change = false;
+        if(newbatch){
+          start = i;
+          end = i;
+          batch = j;
+          newbatch = false;
         } else {
-            H_vec.push_back(new_x2[ibatch] - new_x1[2*idx]);
+          end++;
         }
+        i++;
+      }
+      if(bool_change){
+        h = std::max(h, (batch % 2 == 1? new_y1[2*end + 2]-new_y2[batch]: new_x2[batch] - new_x1[2*start + 1]  ));
+      }
     }
+  
+  h = std::max(h, (batch % 2 == 1? new_y1[2*end + 2]-new_y2[batch]: new_x2[batch] - new_x1[2*start + 1]  ));
 
-    return *std::max_element(H_vec.begin(), H_vec.end());
+  return h;
 }
+
