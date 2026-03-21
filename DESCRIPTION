@@ -1,24 +1,33 @@
-Package: Hausdorff
+Package: HausdorffGoF
 Type: Package
-Version: 0.0.1
-Title: Computing P-Values of the Hausdorff Test 
-Author: Dimitrina S. Dimitrova <D.Dimitrova@city.ac.uk>,
-        Yun Jia <yunjia2019@gmail.com>,
-        Vladimir K. Kaishev <Vladimir.Kaishev.1@city.ac.uk>
-Maintainer: Yun Jia <yunjia2019@gmail.com>
-Depends: R (>= 3.3.0)
-SystemRequirements: fftw3 (>=3.3.4)
-Copyright: Copyright holders of FFTW3: Copyright (c) 2003, 2007-11
-        Matteo Frigo; Copyright (c) 2003, 2007-11 Massachusetts
-        Institute of Technology
-Description: Contains functions to compute p-values for the Hausdorff Test. To cite this package in publication: Dimitrina S. Dimitrova, Yun Jia and Vladimir K. Kaishev (2025). The R functions KS2sample and Kuiper2sample: Efficient Exact Calculation of P-values of the Two-sample Kolmogorov-Smirnov and Kuiper Tests. submitted.
-License: GPL (>= 2.0)
+Title: Computing Test Statistics and P-Values of the Hausdorff Goodness-of-Fit Test
+Version: 0.2.0
+Authors@R: c(
+    person("Dimitrina S.", "Dimitrova",
+           email = "D.Dimitrova@city.ac.uk",
+           role  = "aut"),
+    person("Yun",          "Jia",
+           email = "yunjia2019@gmail.com",
+           role  = c("aut", "cre")),
+    person("Vladimir K.",  "Kaishev",
+           email = "Vladimir.Kaishev.1@city.ac.uk",
+           role  = "aut"))
+Description: Computes the Hausdorff (H) test statistic and its p-value for one-sample and two-sample goodness-of-fit testing. The H statistic measures the Hausdorff distance between empirical and theoretical (one-sample) or two empirical (two-sample) cumulative distribution function curves under the Chebyshev metric, and equals geometrically the side length of the largest square (hypercube) inscribable between the two curves. Exact one-sample p-values are computed via a rectangle-probability representation  using the Exact-KS-FFT method of Dimitrova, Kaishev and Tan (2020). Two-sample p-values are obtained by exact or Monte Carlo permutation. Univariate algorithms
+    run in O(m+n) time; a bivariate implementation is also included.
+License: GPL (>= 2)
 Encoding: UTF-8
-LazyData: true
-Imports: Rcpp (>= 0.12.12), KSgeneral
-LinkingTo: Rcpp, RcppEigen
+Depends: R (>= 3.3.0)
+Imports:
+    Rcpp (>= 0.12.12),
+    KSgeneral
+LinkingTo:
+    Rcpp,
+    RcppEigen
+SystemRequirements: fftw3 (>= 3.3.4)
 NeedsCompilation: yes
-Packaged: 2024-05-20 17:22:45 UTC; jy
-Repository: CRAN
-Date/Publication: 2024-05-18 19:10:09 UTC
-Note: Includes code from the StOpt library (https://gitlab.com/stochastic-control/StOpt), licensed under the GNU Lesser General Public License (LGPL-3).
+Copyright: Includes code from the StOpt library
+    (https://gitlab.com/stochastic-control/StOpt), licensed under LGPL-3.
+    FFTW3 library: Copyright (c) 2003, 2007-11 Matteo Frigo;
+    Copyright (c) 2003, 2007-11 Massachusetts Institute of Technology.
+URL: https://github.com/fakecloudsjy/HausdorffGoF
+BugReports: https://github.com/fakecloudsjy/HausdorffGoF/issues
