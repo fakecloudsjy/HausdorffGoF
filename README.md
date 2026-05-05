@@ -30,7 +30,7 @@ To install the latest development version from GitHub:
 
 ```r
 # install.packages("remotes")
-remotes::install_github("d-dimitrova/HausdorffGoF")
+remotes::install_github("fakecloudsjy/HausdorffGoF")
 ```
 
 Building from source requires a C++ compiler. On Windows, install [Rtools](https://cran.r-project.org/bin/windows/Rtools/); on macOS, install Xcode Command Line Tools (`xcode-select --install`).
