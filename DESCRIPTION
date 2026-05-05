@@ -37,7 +37,7 @@ Description: Computes the test statistic and p-values of the one-sample and
 Depends: R (>= 3.5.0)
 Imports: Rcpp (>= 0.12.12), KSgeneral, stats, utils
 LinkingTo: Rcpp, RcppEigen
-License: GPL (>= 2)
+License: GPL (>= 3)
 URL: https://github.com/fakecloudsjy/HausdorffGoF
 Encoding: UTF-8
 Copyright: Copyright (C) 2020 EDF - Electricite de France, for code from
