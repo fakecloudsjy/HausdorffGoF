@@ -145,9 +145,9 @@ If you use `HausdorffGoF` in a publication, please cite:
 
 ## Authors
 
-- Dimitrina S. Dimitrova — City, University of London (<D.Dimitrova@city.ac.uk>)
+- Dimitrina S. Dimitrova — City St George's, University of London (<D.Dimitrova@citystgeorges.ac.uk>)
 - Yun Jia — maintainer (<yunjia2019@gmail.com>)
-- Vladimir K. Kaishev — City, University of London (<Vladimir.Kaishev.1@city.ac.uk>)
+- Vladimir K. Kaishev — City St George's, University of London (<Vladimir.Kaishev.1@citystgeorges.ac.uk>)
 
 ## License
 
