@@ -278,12 +278,7 @@ Hausdorff_test.matrix <- function(x, y,
                                   max.init     = 1000,
                                   invariant    = FALSE,
                                   ...) {
-  method <- match.arg(method, choices = c("default", "exact", "mc"))
-  if (method == "exact")
-    warning("Exact permutation enumeration is not yet supported for the ",
-            "bivariate case. Falling back to Monte Carlo permutation.",
-            call. = FALSE)
-  
+  method    <- match.arg(method, choices = c("default", "exact", "mc"))
   data_name <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
   
   sigma <- NULL
@@ -297,6 +292,7 @@ Hausdorff_test.matrix <- function(x, y,
   }
   
   result <- H_test_2s_2d(x = x, y = y, nboots = nboots,
+                         Exact = (method == "exact"),
                          invariant = invariant, tol = tol)
   
   result$data.name <- data_name   # restore original variable names

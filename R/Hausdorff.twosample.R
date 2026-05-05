@@ -42,8 +42,8 @@ H_test_2s_1d = function(x1, x2, nboots = 2000, Exact = FALSE){
 }
 
 
-
-H_test_2s_2d <- function(x, y, nboots = 2000, invariant = FALSE, tol = 1e-6) {
+H_test_2s_2d <- function(x, y, nboots = 2000, Exact = FALSE,
+                         invariant = FALSE, tol = 1e-6) {
   if (!is.matrix(x) || ncol(x) != 2)
     stop("`x` must be a two-column numeric matrix.")
   if (!is.matrix(y) || ncol(y) != 2)
@@ -52,6 +52,12 @@ H_test_2s_2d <- function(x, y, nboots = 2000, invariant = FALSE, tol = 1e-6) {
   m    <- nrow(x)
   n    <- nrow(y)
   pool <- rbind(x, y)
+  
+  # Switch to Monte Carlo if exact enumeration would overflow
+  if (Exact && choose(m + n, m) > 2.147483647e9) {
+    Exact <- FALSE
+    message("Sample sizes too large for exact enumeration; switching to Monte Carlo.")
+  }
   
   # Statistic function: standard or order-invariant
   stat_fn <- if (!invariant) {
@@ -67,19 +73,29 @@ H_test_2s_2d <- function(x, y, nboots = 2000, invariant = FALSE, tol = 1e-6) {
     }
   }
   
-  observed   <- stat_fn(x, y)
-  perm_stats <- replicate(nboots, {
-    idx <- sample.int(m + n, m, replace = FALSE)
-    stat_fn(pool[idx, , drop = FALSE], pool[-idx, , drop = FALSE])
-  })
+  observed <- stat_fn(x, y)
   
-  p_value <- mean(perm_stats >= observed)
-  if (p_value == 0) p_value <- 1 / (2 * nboots)
+  if (!Exact) {
+    method_str <- "Two-sample bivariate Hausdorff test (Monte Carlo permutation)"
+    perm_stats <- replicate(nboots, {
+      idx <- sample.int(m + n, m, replace = FALSE)
+      stat_fn(pool[idx, , drop = FALSE], pool[-idx, , drop = FALSE])
+    })
+    p_value <- mean(perm_stats >= observed)
+    if (p_value == 0) p_value <- 1 / (2 * nboots)
+  } else {
+    method_str <- "Two-sample bivariate Hausdorff test (Exact)"
+    combn_idx  <- combn(m + n, m)
+    bigger     <- 0L
+    for (i in seq_len(ncol(combn_idx))) {
+      idx    <- combn_idx[, i]
+      bigger <- bigger + (stat_fn(pool[idx, , drop = FALSE],
+                                  pool[-idx, , drop = FALSE]) >= observed)
+    }
+    p_value <- bigger / choose(m + n, m)
+  }
   
-  method_str <- paste0(
-    "Two-sample bivariate Hausdorff test (Monte Carlo permutation)",
-    if (invariant) ", order-invariant" else ""
-  )
+  if (invariant) method_str <- paste0(method_str, ", order-invariant")
   
   result <- list(
     statistic   = c(H = observed),

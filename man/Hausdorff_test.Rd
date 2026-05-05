@@ -31,12 +31,12 @@ directs the user to \code{\link{distribution}}.}
 \code{\link{H_test_2s_1d}}.
 \code{"default"} and \code{"mc"} use Monte Carlo permutation;
 \code{"exact"} enumerates all \eqn{\frac{(m+n)!}{m!\,n!}}{} permutations.}
-\item{\code{y} matrix or list}{Two-sample bivariate test.  The p-value is always obtained by Monte Carlo
-permutation using
-\code{\link{H_stat_2s_2d}}.
-Passing \code{method = "exact"} issues a warning and falls back to Monte
-Carlo (exact enumeration not yet supported).  List input is converted to a
-two-column matrix before proceeding.}
+\item{\code{y} matrix or list}{Two-sample bivariate test via
+\code{\link{H_test_2s_2d}}.  Monte Carlo permutation is used by default;
+\code{method = "exact"} enumerates all \eqn{\frac{(m+n)!}{m!\,n!}}{} splits
+(automatically falling back to Monte Carlo if the count exceeds
+\eqn{2.147 \times 10^{9}}{}).  List input is converted to a two-column matrix
+before proceeding.}
 }
 
 \bold{Resolution of} \code{method} \bold{by path.}
@@ -45,8 +45,8 @@ two-column matrix before proceeding.}
 Two-sample (univariate and bivariate): Monte Carlo permutation.}
 \item{\code{"exact"}}{One-sample: exact rectangle-probability p-value (same as \code{"default"}).
 Two-sample univariate: full enumeration of all permutations.
-Two-sample bivariate: not yet supported; a warning is issued and Monte
-Carlo is used instead.}
+Two-sample bivariate: full enumeration of all permutations (falls back to
+Monte Carlo automatically if sample sizes are too large).}
 \item{\code{"mc"}}{One-sample: Monte Carlo bootstrap p-value.  Bootstrap samples are drawn
 from \eqn{F}{} via \code{CDFinverse} if supplied in the \code{NullDist}
 object, otherwise by \code{uniroot} inversion of \code{CDF}.

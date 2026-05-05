@@ -24,25 +24,19 @@ and Kaishev (2026b), this equals the side length of the largest axis-aligned
 hypercube that can be inscribed in the region between the two bivariate
 empirical cdf surfaces \eqn{F^{c}_{m}}{} and \eqn{G^{c}_{n}}{}.
 
-\bold{Permutation p-value.}  Because the distribution of
+\bold{Permutation p-value.}  Because the null distribution of
 \eqn{\mathcal{H}_{m,n}}{} depends on the unknown \eqn{F}{} and \eqn{G}{},
-p-values are computed via a permutation argument (Proposition 3.5 of
-Dimitrova, Jia, and Kaishev 2026b).  Let
-\eqn{Z_{m+n} = \{\bm{x}_{1},\ldots,\bm{x}_{m},\bm{y}_{1},\ldots,\bm{y}_{n}\}}{}
-be the pooled sample.  The permutation Hausdorff statistic
-\eqn{\mathcal{H}^{\dagger}_{m,n}}{} is defined by randomly splitting
-\eqn{Z_{m+n}}{} into groups of sizes \eqn{m}{} and \eqn{n}{} and its
-conditional distribution given \eqn{Z_{m+n}}{} is:
-\deqn{P(\mathcal{H}^{\dagger}_{m,n} > q \mid Z_{m+n})
-  = \frac{1}{B} \sum_{b=1}^{B}
-    \mathbf{1}\!\left\{H(F^{c\dagger}_{m}(\pi_{b}), G^{c\dagger}_{n}(\pi_{b})) > q\right\},}{}
-where \eqn{B = \code{nboots}}{} random splits are used.  If the estimated
-p-value is zero it is replaced by \eqn{1/(2 \times \code{nboots})}{}.
-
-Exact enumeration of all \eqn{\frac{(m+n)!}{m!\,n!}}{} permutations is not
-supported for the bivariate case due to the computational cost of
-\code{\link{H_stat_2s_2d}}.  Use the unified wrapper
-\code{\link{Hausdorff_test}} if scale tuning via \code{scale_psi} is needed.
+p-values are obtained by permutation (Proposition 3.5 of Dimitrova, Jia, and
+Kaishev 2026b).  When \code{Exact = TRUE} all \eqn{\frac{(m+n)!}{m!\,n!}}{}
+splits of the pooled sample are enumerated; if the count exceeds
+\eqn{2.147 \times 10^{9}}{} the function falls back to Monte Carlo
+automatically.  When \code{Exact = FALSE} the pooled sample is randomly split
+for \code{nboots} replications and the p-value is the proportion of
+permutation statistics \eqn{\geq \hat{q}}{}, floored at
+\eqn{1/(2 \times \code{nboots})}{}.  The asymptotic equivalence between the
+permutation p-value and the true p-value of \eqn{\mathcal{H}_{m,n}}{}, and
+the control of type I error, follow from Theorems 3.2--3.4 of Dimitrova, Jia,
+and Kaishev (2026b); see \code{\link{H_test_2s_1d}} for the full statement.
 
 \bold{Order-invariant statistic.}  When \code{invariant = TRUE} the
 order-invariant statistic
@@ -52,22 +46,14 @@ observed value and every permutation replicate.  It maximises over the
 \eqn{2^{2} = 4}{} sign-flip orderings of the two coordinates, making the
 test invariant to the labelling of coordinate axes.
 
-\bold{Asymptotic equivalence (Theorems 3.2--3.4).}  Under the null
-hypothesis, or under fixed or contiguous alternatives, the permutation p-value
-is asymptotically equivalent to the true p-value of \eqn{\mathcal{H}_{m,n}}{}.
-The permutation test controls the type I error at the nominal level for all
-\eqn{k \geq 1}{}, and the power of the two tests are asymptotically equal.
-
-\bold{Scale tuning.}  The power of \eqn{\mathcal{H}_{m,n}}{} is not
-scale-invariant.  The optimal column-wise scale vector
-\eqn{(\sigma^{*}_{1}, \sigma^{*}_{2})}{} can be estimated and applied
-automatically by passing \code{scale_psi} to the unified wrapper
-\code{\link{Hausdorff_test}}, which calls this function internally on the
-already-scaled samples.
+\bold{Scale tuning.}  For scale-tuned testing pass \code{scale_psi} to
+\code{\link{Hausdorff_test}}, which estimates the column-wise optimal scale
+vector \eqn{(\sigma^{*}_{1}, \sigma^{*}_{2})}{} and calls this function
+internally on the already-scaled samples.
 }
 
 \usage{
-H_test_2s_2d(x, y, nboots = 2000, invariant = FALSE, tol = 1e-6)
+H_test_2s_2d(x, y, nboots = 2000, Exact = FALSE, invariant = FALSE, tol = 1e-6)
 }
 
 \arguments{
@@ -76,7 +62,12 @@ of size \eqn{m}{}.}
 \item{y}{a two-column numeric matrix representing the second bivariate sample
 of size \eqn{n}{}.}
 \item{nboots}{a positive integer giving the number of Monte Carlo permutation
-replications.  Defaults to \code{2000}.}
+replications, used only when \code{Exact = FALSE}.  Defaults to \code{2000}.}
+\item{Exact}{a logical value indicating whether an exact permutation p-value
+should be computed by enumerating all \eqn{\frac{(m+n)!}{m!\,n!}}{} splits of
+the pooled sample.  If \eqn{\frac{(m+n)!}{m!\,n!} > 2.147483647 \times 10^{9}}{}
+the function automatically switches to Monte Carlo and emits a message.
+Defaults to \code{FALSE}.}
 \item{invariant}{logical.  When \code{TRUE}, the order-invariant statistic
 \eqn{H^{\circ}_{m,n}}{} is used for the observed value and all permutation
 replicates, maximising over the four sign-flip orderings of the two
@@ -96,8 +87,11 @@ An object of class \code{"htest"} with the following components:
 \item{\code{p.value}}{the Monte Carlo permutation p-value, i.e. the proportion
 of permutation statistics greater than or equal to \eqn{\hat{q}}{}.  If
 zero, replaced by \eqn{1/(2 \times \code{nboots})}{}.}
-\item{\code{method}}{a character string describing the procedure, with the
-suffix \code{", order-invariant"} appended when \code{invariant = TRUE}.}
+\item{\code{method}}{a character string indicating the procedure:
+\code{"Two-sample bivariate Hausdorff test (Exact)"} or
+\code{"Two-sample bivariate Hausdorff test (Monte Carlo permutation)"},
+with the suffix \code{", order-invariant"} appended when
+\code{invariant = TRUE}.}
 \item{\code{alternative}}{the character string \code{"two-sided"}.}
 \item{\code{data.name}}{a character string giving the names of the two data
 objects.}
@@ -132,8 +126,13 @@ xm2 <- matrix(rnorm(100), ncol = 2)
 ym2 <- matrix(rnorm(100, mean = 0.5), ncol = 2)
 H_test_2s_2d(xm2, ym2, nboots = 1000)
 
-## Order-invariant statistic
+## Exact permutation test for small samples
 set.seed(3)
+H_test_2s_2d(matrix(rnorm(16), ncol = 2),
+             matrix(rnorm(16), ncol = 2), Exact = TRUE)
+
+## Order-invariant statistic
+set.seed(4)
 H_test_2s_2d(xm, ym, nboots = 1000, invariant = TRUE)
 
 ## Scale-tuned test via the unified wrapper (recommended)
