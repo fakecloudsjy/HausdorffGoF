@@ -11,58 +11,46 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// Hausdorff45_Rcpp
-double Hausdorff45_Rcpp(NumericVector a, NumericVector b);
-RcppExport SEXP _Hausdorff_Hausdorff45_Rcpp(SEXP aSEXP, SEXP bSEXP) {
+// H_stat_2s_1d_tr
+double H_stat_2s_1d_tr(NumericVector a, NumericVector b);
+RcppExport SEXP _HausdorffGoF_H_stat_2s_1d_tr(SEXP aSEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(Hausdorff45_Rcpp(a, b));
+    rcpp_result_gen = Rcpp::wrap(H_stat_2s_1d_tr(a, b));
     return rcpp_result_gen;
 END_RCPP
 }
-// Hausdorff_Cpp
-double Hausdorff_Cpp(NumericVector a, NumericVector b);
-RcppExport SEXP _Hausdorff_Hausdorff_Cpp(SEXP aSEXP, SEXP bSEXP) {
+// H_stat_2s_1d_p
+double H_stat_2s_1d_p(NumericVector a, NumericVector b);
+RcppExport SEXP _HausdorffGoF_H_stat_2s_1d_p(SEXP aSEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(Hausdorff_Cpp(a, b));
+    rcpp_result_gen = Rcpp::wrap(H_stat_2s_1d_p(a, b));
     return rcpp_result_gen;
 END_RCPP
 }
-// hsearch_Rcpp
-double hsearch_Rcpp(NumericMatrix x_proj, NumericMatrix y_proj, bool boundary);
-RcppExport SEXP _Hausdorff_hsearch_Rcpp(SEXP x_projSEXP, SEXP y_projSEXP, SEXP boundarySEXP) {
+// H_stat_2s_2d
+double H_stat_2s_2d(NumericMatrix x_r, NumericMatrix y_r, double tol);
+RcppExport SEXP _HausdorffGoF_H_stat_2s_2d(SEXP x_rSEXP, SEXP y_rSEXP, SEXP tolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x_proj(x_projSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y_proj(y_projSEXP);
-    Rcpp::traits::input_parameter< bool >::type boundary(boundarySEXP);
-    rcpp_result_gen = Rcpp::wrap(hsearch_Rcpp(x_proj, y_proj, boundary));
-    return rcpp_result_gen;
-END_RCPP
-}
-// fastCDF_Rcpp
-NumericVector fastCDF_Rcpp(NumericMatrix p_x_r, Rcpp::List p_z_r);
-RcppExport SEXP _Hausdorff_fastCDF_Rcpp(SEXP p_x_rSEXP, SEXP p_z_rSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type p_x_r(p_x_rSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type p_z_r(p_z_rSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastCDF_Rcpp(p_x_r, p_z_r));
+    Rcpp::traits::input_parameter< NumericMatrix >::type x_r(x_rSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y_r(y_rSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(H_stat_2s_2d(x_r, y_r, tol));
     return rcpp_result_gen;
 END_RCPP
 }
 // fastCDFOnSample_Rcpp
 NumericVector fastCDFOnSample_Rcpp(NumericMatrix p_x_r);
-RcppExport SEXP _Hausdorff_fastCDFOnSample_Rcpp(SEXP p_x_rSEXP) {
+RcppExport SEXP _HausdorffGoF_fastCDFOnSample_Rcpp(SEXP p_x_rSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -73,15 +61,14 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_Hausdorff_Hausdorff45_Rcpp", (DL_FUNC) &_Hausdorff_Hausdorff45_Rcpp, 2},
-    {"_Hausdorff_Hausdorff_Cpp", (DL_FUNC) &_Hausdorff_Hausdorff_Cpp, 2},
-    {"_Hausdorff_hsearch_Rcpp", (DL_FUNC) &_Hausdorff_hsearch_Rcpp, 3},
-    {"_Hausdorff_fastCDF_Rcpp", (DL_FUNC) &_Hausdorff_fastCDF_Rcpp, 2},
-    {"_Hausdorff_fastCDFOnSample_Rcpp", (DL_FUNC) &_Hausdorff_fastCDFOnSample_Rcpp, 1},
+    {"_HausdorffGoF_H_stat_2s_1d_tr", (DL_FUNC) &_HausdorffGoF_H_stat_2s_1d_tr, 2},
+    {"_HausdorffGoF_H_stat_2s_1d_p", (DL_FUNC) &_HausdorffGoF_H_stat_2s_1d_p, 2},
+    {"_HausdorffGoF_H_stat_2s_2d", (DL_FUNC) &_HausdorffGoF_H_stat_2s_2d, 3},
+    {"_HausdorffGoF_fastCDFOnSample_Rcpp", (DL_FUNC) &_HausdorffGoF_fastCDFOnSample_Rcpp, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_Hausdorff(DllInfo *dll) {
+RcppExport void R_init_HausdorffGoF(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

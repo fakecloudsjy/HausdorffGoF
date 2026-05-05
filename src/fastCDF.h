@@ -4,7 +4,7 @@
 #ifndef FASTCDF_H
 #define FASTCDF_H
 
-
+#include <memory>
 /** \file fastCDF.h
  *  \brief Calculate CDF on a grid of points as explained in  Langrené-Warin 2020 :
  *         "Fast multivariate empirical cumulative distribution function with connection to kernel density estimation"
