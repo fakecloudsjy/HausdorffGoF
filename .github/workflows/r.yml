@@ -1,0 +1,55 @@
+name: R-CMD-check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (R ${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false        # keep other jobs running if one fails
+      matrix:
+        config:
+          - { os: ubuntu-latest,  r: 'release' }
+          - { os: ubuntu-latest,  r: 'devel'   }
+          - { os: windows-latest, r: 'release' }
+          - { os: macos-latest,   r: 'release' }
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up R ${{ matrix.config.r }}
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          use-public-rspm: true   # faster binary package installs
+
+      - name: Install system dependencies (Linux only)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+
+      - name: Install R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::rcmdcheck
+            any::KSgeneral
+
+      - name: Check
+        run: |
+          rcmdcheck::rcmdcheck(
+            args     = c("--no-manual", "--as-cran"),
+            error_on = "warning"        # fail on warnings too
+          )
+        shell: Rscript {0}
