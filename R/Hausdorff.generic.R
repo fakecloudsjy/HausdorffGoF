@@ -296,32 +296,10 @@ Hausdorff_test.matrix <- function(x, y,
     y <- sweep(y, 2, sigma, `*`)
   }
   
-  m    <- nrow(x);  n <- nrow(y)
-  pool <- rbind(x, y)
+  result <- H_test_2s_2d(x = x, y = y, nboots = nboots,
+                         invariant = invariant, tol = tol)
   
-  stat_fn  <- function(a, b) Hausdorff_stat.matrix(a, b, tol = tol,
-                                                   invariant = invariant)
-  observed <- stat_fn(x, y)
-  
-  perm_stats <- replicate(nboots, {
-    idx <- sample.int(m + n, m, replace = FALSE)
-    stat_fn(pool[idx, , drop = FALSE], pool[-idx, , drop = FALSE])
-  })
-  
-  p_value <- mean(perm_stats >= observed)
-  if (p_value == 0) p_value <- 1 / (2 * nboots)
-  
-  result <- structure(
-    list(
-      statistic   = c(H = observed),
-      p.value     = p_value,
-      method      = "Two-sample bivariate Hausdorff test (Monte Carlo permutation)",
-      alternative = "two-sided",
-      data.name   = data_name
-    ),
-    class = "htest"
-  )
-  
+  result$data.name <- data_name   # restore original variable names
   if (!is.null(sigma))
     result <- .attach_scale_info(result, sigma, psi)
   result

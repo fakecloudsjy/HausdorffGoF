@@ -40,3 +40,55 @@ H_test_2s_1d = function(x1, x2, nboots = 2000, Exact = FALSE){
   class(result) = "htest"
   return(result)
 }
+
+
+
+H_test_2s_2d <- function(x, y, nboots = 2000, invariant = FALSE, tol = 1e-6) {
+  if (!is.matrix(x) || ncol(x) != 2)
+    stop("`x` must be a two-column numeric matrix.")
+  if (!is.matrix(y) || ncol(y) != 2)
+    stop("`y` must be a two-column numeric matrix.")
+  
+  m    <- nrow(x)
+  n    <- nrow(y)
+  pool <- rbind(x, y)
+  
+  # Statistic function: standard or order-invariant
+  stat_fn <- if (!invariant) {
+    function(a, b) H_stat_2s_2d(a, b, tol = tol)
+  } else {
+    function(a, b) {
+      max(
+        H_stat_2s_2d( a,                          b,                         tol = tol),
+        H_stat_2s_2d(cbind( a[,1], -a[,2]), cbind( b[,1], -b[,2]),           tol = tol),
+        H_stat_2s_2d(cbind(-a[,1],  a[,2]), cbind(-b[,1],  b[,2]),           tol = tol),
+        H_stat_2s_2d(cbind(-a[,1], -a[,2]), cbind(-b[,1], -b[,2]),           tol = tol)
+      )
+    }
+  }
+  
+  observed   <- stat_fn(x, y)
+  perm_stats <- replicate(nboots, {
+    idx <- sample.int(m + n, m, replace = FALSE)
+    stat_fn(pool[idx, , drop = FALSE], pool[-idx, , drop = FALSE])
+  })
+  
+  p_value <- mean(perm_stats >= observed)
+  if (p_value == 0) p_value <- 1 / (2 * nboots)
+  
+  method_str <- paste0(
+    "Two-sample bivariate Hausdorff test (Monte Carlo permutation)",
+    if (invariant) ", order-invariant" else ""
+  )
+  
+  result <- list(
+    statistic   = c(H = observed),
+    p.value     = p_value,
+    method      = method_str,
+    alternative = "two-sided",
+    data.name   = paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+  )
+  class(result) <- "htest"
+  result
+}
+
