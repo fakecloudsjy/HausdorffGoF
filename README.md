@@ -141,7 +141,7 @@ If you use `HausdorffGoF` in a publication, please cite:
 > Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026a). "On a One Sample Goodness-of-fit Test Based on the Hausdorff Metric". *Submitted*.
 
 **Two-sample H test:**
-> Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026b). "On a Two-Sample Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric". *Submitted to the Annals of Statistics*.
+> Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026b). "On a Two-Sample Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric". *Submitted*.
 
 ## Authors
 
