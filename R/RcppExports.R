@@ -9,12 +9,8 @@ H_stat_2s_1d_p <- function(a, b) {
     .Call(`_HausdorffGoF_H_stat_2s_1d_p`, a, b)
 }
 
-hsearch_Rcpp <- function(x_proj, y_proj) {
-    .Call(`_HausdorffGoF_hsearch_Rcpp`, x_proj, y_proj)
-}
-
-fastCDF_Rcpp <- function(p_x_r, p_z_r) {
-    .Call(`_HausdorffGoF_fastCDF_Rcpp`, p_x_r, p_z_r)
+H_stat_2s_2d <- function(x_r, y_r, tol = 1e-6) {
+    .Call(`_HausdorffGoF_H_stat_2s_2d`, x_r, y_r, tol)
 }
 
 fastCDFOnSample_Rcpp <- function(p_x_r) {
