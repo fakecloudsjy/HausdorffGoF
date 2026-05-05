@@ -79,8 +79,17 @@ H_test_c_cdf = function(q, n, CDF, CDFinverse = NULL, pdf = NULL,
     
   } else {
     for (i in 1:n) {
-      f_b[i] <- CDF(CDFinverse((i-1)/n + q) + q)
-      f_a[i] <- CDF(CDFinverse(i/n - q) - q)
+      if (i/n - q < 0) {
+        f_a[i] <- 0
+      } else {
+        f_a[i] <- CDF(CDFinverse(i/n - q) - q)
+      }
+      
+      if ((i-1)/n + q > 1) {
+        f_b[i] <- 1
+      } else {
+        f_b[i] <- CDF(CDFinverse((i-1)/n + q) + q)
+      }
     }
   }
   
@@ -138,6 +147,3 @@ H_stat_1s_1d = function(x, CDF, pdf = NULL, tol = 1e-10, max.init = 1000){
   H_vec = xs - x
   return(max(abs(H_vec)))
 }
-
-
-

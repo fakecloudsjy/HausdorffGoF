@@ -9,8 +9,8 @@ H_stat_2s_1d_p <- function(a, b) {
     .Call(`_HausdorffGoF_H_stat_2s_1d_p`, a, b)
 }
 
-H_stat_2s_2d <- function(x_r, y_r, tol = 1e-6) {
-    .Call(`_HausdorffGoF_H_stat_2s_2d`, x_r, y_r, tol)
+H_stat_2s_2d <- function(x, y, tol = 1e-6) {
+    .Call(`_HausdorffGoF_H_stat_2s_2d`, x, y, tol)
 }
 
 fastCDFOnSample_Rcpp <- function(p_x_r) {

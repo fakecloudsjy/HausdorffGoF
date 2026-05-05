@@ -275,6 +275,7 @@ Hausdorff_test.matrix <- function(x, y,
                                   tol          = 1e-6,
                                   scale_psi    = NULL,
                                   scale_nperms = 1000,
+                                  max.init     = 1000,
                                   invariant    = FALSE,
                                   ...) {
   method <- match.arg(method, choices = c("default", "exact", "mc"))
@@ -334,6 +335,7 @@ Hausdorff_test.list <- function(x, y,
                                 tol          = 1e-6,
                                 scale_psi    = NULL,
                                 scale_nperms = 1000,
+                                max.init     = 1000,
                                 invariant    = FALSE,
                                 ...) {
   method <- match.arg(method, choices = c("default", "exact", "mc"))
@@ -363,14 +365,14 @@ Hausdorff_stat.numeric <- function(x, y, tol = 1e-10, ...) {
 }
 
 Hausdorff_stat.NullDist <- function(x, y, tol = 1e-10, ...) {
-  H_stat_1s_1d(x0  = x,
+  H_stat_1s_1d(x  = x,
                CDF = y$CDF,
                pdf = y$pdf,
                tol = tol)
 }
 
 Hausdorff_stat.function <- function(x, y, tol = 1e-10, ...) {
-  H_stat_1s_1d(x0  = x,
+  H_stat_1s_1d(x  = x,
                CDF = y,
                tol = tol)
 }

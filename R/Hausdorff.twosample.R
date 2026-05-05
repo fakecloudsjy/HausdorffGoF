@@ -1,5 +1,5 @@
 
-H_test_2s_1d = function(x1, x2, nboots = 2000, Exact = F){
+H_test_2s_1d = function(x1, x2, nboots = 2000, Exact = FALSE){
   test_stat = H_stat_2s_1d_tr(x1, x2) #Finds test stat
   comb = c(x1, x2)
   n = length(comb)
