@@ -5,11 +5,11 @@ Title: P-Values of the One- and Two-Sample Hausdorff
     Goodness-of-Fit Test
 Authors@R: c(
     person("Dimitrina S.", "Dimitrova",
-           email = "D.Dimitrova@city.ac.uk", role = c("aut")),
+           email = "D.Dimitrova@citystgeorges.ac.uk", role = c("aut")),
     person("Yun", "Jia",
            email = "yunjia2019@gmail.com",   role = c("aut", "cre")),
     person("Vladimir K.", "Kaishev",
-           email = "Vladimir.Kaishev.1@city.ac.uk", role = c("aut")))
+           email = "Vladimir.Kaishev.1@citystgeorges.ac.uk", role = c("aut")))
 Description: Computes the test statistic and p-values of the one-sample and
     two-sample Hausdorff (H) goodness-of-fit tests proposed by Dimitrova, Jia,
     and Kaishev (2026a, 2026b). The H statistic measures the Hausdorff distance
