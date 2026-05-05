@@ -1,33 +1,50 @@
 Package: HausdorffGoF
 Type: Package
-Title: Computing Test Statistics and P-Values of the Hausdorff Goodness-of-Fit Test
-Version: 0.2.0
+Version: 0.3.0
+Title: P-Values of the One and Two-Sample Hausdorff
+    Goodness-of-Fit Test
 Authors@R: c(
     person("Dimitrina S.", "Dimitrova",
-           email = "D.Dimitrova@city.ac.uk",
-           role  = "aut"),
-    person("Yun",          "Jia",
-           email = "yunjia2019@gmail.com",
-           role  = c("aut", "cre")),
-    person("Vladimir K.",  "Kaishev",
-           email = "Vladimir.Kaishev.1@city.ac.uk",
-           role  = "aut"))
-Description: Computes the Hausdorff (H) test statistic and its p-value for one-sample and two-sample goodness-of-fit testing. The H statistic measures the Hausdorff distance between empirical and theoretical (one-sample) or two empirical (two-sample) cumulative distribution function curves under the Chebyshev metric, and equals geometrically the side length of the largest square (hypercube) inscribable between the two curves. Exact one-sample p-values are computed via a rectangle-probability representation  using the Exact-KS-FFT method of Dimitrova, Kaishev and Tan (2020). Two-sample p-values are obtained by exact or Monte Carlo permutation. Univariate algorithms
-    run in O(m+n) time; a bivariate implementation is also included.
+           email = "D.Dimitrova@city.ac.uk", role = c("aut")),
+    person("Yun", "Jia",
+           email = "yunjia2019@gmail.com",   role = c("aut", "cre")),
+    person("Vladimir K.", "Kaishev",
+           email = "Vladimir.Kaishev.1@city.ac.uk", role = c("aut")))
+Description: Computes the test statistic and p-values of the one-sample and
+    two-sample Hausdorff (H) goodness-of-fit tests proposed by Dimitrova, Jia,
+    and Kaishev (2026a, 2026b). The H statistic measures the Hausdorff distance
+    between the planar curves of two cumulative distribution functions (cdfs)
+    under the Chebyshev (l-infinity) metric, equalling the side length of the
+    largest axis-aligned square inscribable between the two curves; in the
+    univariate case this coincides with the Levy metric. Three settings are
+    covered: (i) one-sample, comparing a sample to a prespecified continuous
+    null cdf; (ii) two-sample univariate; and (iii) two-sample bivariate.
+    Exact one-sample p-values are evaluated in O(n^2 log n) time via the
+    'Exact-KS-FFT' method of Dimitrova, Kaishev, and Tan (2020)
+    <doi:10.18637/jss.v095.i10>; two-sample p-values are obtained by exact
+    or Monte Carlo permutation. A key advantage of the H test is that its
+    sensitivity can be directed towards the left tail, body, or right tail
+    of the distribution by tuning a scale parameter sigma, making it
+    significantly outperform classical alternatives such as Kolmogorov-Smirnov,
+    Cramer-von Mises, and Anderson-Darling, especially in the tails, while
+    achieving power comparable to the Wasserstein test. This makes the H test
+    particularly appealing in finance, economics, astronomy, and extreme value
+    theory. Optimal scale selection (sigma*) is integrated directly into the
+    unified interface Hausdorff_test() via the scale_psi argument, and the S3
+    generics Hausdorff_test() and Hausdorff_stat() dispatch automatically to
+    the appropriate routine based on input type, with null distributions
+    specified via the distribution() constructor.
+Depends: R (>= 3.5.0)
+Imports: Rcpp (>= 0.12.12), KSgeneral, stats, utils
+LinkingTo: Rcpp, RcppEigen
+SystemRequirements: fftw3 (>= 3.3.4)
 License: GPL (>= 2)
 Encoding: UTF-8
-Depends: R (>= 3.3.0)
-Imports:
-    Rcpp (>= 0.12.12),
-    KSgeneral
-LinkingTo:
-    Rcpp,
-    RcppEigen
-SystemRequirements: fftw3 (>= 3.3.4)
+LazyData: true
 NeedsCompilation: yes
-Copyright: Includes code from the StOpt library
-    (https://gitlab.com/stochastic-control/StOpt), licensed under LGPL-3.
-    FFTW3 library: Copyright (c) 2003, 2007-11 Matteo Frigo;
-    Copyright (c) 2003, 2007-11 Massachusetts Institute of Technology.
-URL: https://github.com/fakecloudsjy/HausdorffGoF
-BugReports: https://github.com/fakecloudsjy/HausdorffGoF/issues
+Copyright: Copyright holders of FFTW3: Copyright (c) 2003, 2007-11
+    Matteo Frigo; Copyright (c) 2003, 2007-11 Massachusetts Institute of
+    Technology.
+Note: Includes code from the StOpt library
+    (https://gitlab.com/stochastic-control/StOpt), licensed under the GNU
+    Lesser General Public License (LGPL-3).
