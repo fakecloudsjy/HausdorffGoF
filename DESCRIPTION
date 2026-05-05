@@ -39,6 +39,7 @@ Imports: Rcpp (>= 0.12.12), KSgeneral, stats, utils
 LinkingTo: Rcpp, RcppEigen
 SystemRequirements: fftw3 (>= 3.3.4)
 License: GPL (>= 2)
+URL: https://github.com/fakecloudsjy/HausdorffGoF
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: yes
