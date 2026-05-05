@@ -1,4 +1,5 @@
-exportPattern("^[[:alpha:]]+")
+exportPattern("^[A-Z]")
+export(distribution)
 importFrom(Rcpp, evalCpp)
 importFrom("KSgeneral", "ks_c_cdf_Rcpp")
 importFrom("stats", "ecdf", "optim", "quantile", "runif", "uniroot")
