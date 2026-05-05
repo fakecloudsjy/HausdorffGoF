@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/HausdorffGoF)](https://CRAN.R-project.org/package=HausdorffGoF)
 [![R-CMD-check](https://github.com/d-dimitrova/HausdorffGoF/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/d-dimitrova/HausdorffGoF/actions/workflows/R-CMD-check.yaml)
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <!-- badges: end -->
 
 ## Overview
@@ -151,6 +151,6 @@ If you use `HausdorffGoF` in a publication, please cite:
 
 ## License
 
-GPL (≥ 2). See [LICENSE](LICENSE) for details.
+GPL (≥ 3). See [LICENSE](LICENSE) for details.
 
 This package includes C++ source code from the [StOpt library](https://gitlab.com/stochastic-control/StOpt) (Copyright © 2020 EDF — Électricité de France), used under the GNU Lesser General Public License v3 (LGPL-3).
