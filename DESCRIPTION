@@ -1,7 +1,7 @@
 Package: HausdorffGoF
 Type: Package
 Version: 0.3.0
-Title: P-Values of the One and Two-Sample Hausdorff
+Title: P-Values of the One- and Two-Sample Hausdorff
     Goodness-of-Fit Test
 Authors@R: c(
     person("Dimitrina S.", "Dimitrova",
