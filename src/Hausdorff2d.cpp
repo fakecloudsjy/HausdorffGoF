@@ -32,11 +32,13 @@
 #include "Hausdorff2d.h"
 #include "Hausdorffsearch.h"
 #include "fastCDF.h"
+#include "parameter.h"
 
 // [[Rcpp::depends(RcppEigen)]]
 
 using namespace Rcpp;
 using namespace Eigen;
+using namespace hparameter;
 
 static MatrixXd rows_to_matrix(const std::vector<RowVectorXd> &rows, int ncols)
 {
@@ -131,11 +133,11 @@ double H_stat_2s_2d_cpp(const MatrixXd &x, const MatrixXd &y, double tol)
             if (z1==z2 || z1==z3) continue;  // not omnidirectional
             const double zy = z_yx_at(xi, yi);
             if (z1 > zy) {                    // concave vertex in V_loc
-                RowVectorXd r(5); r << ax+z1, ay+z1, ax, ay, z1;
+                RowVectorXd r(PROJECTION_X_ELEMENTS); r << ax+z1, ay+z1, ax, ay, z1;
                 px_rows.push_back(r);
             }
             if (zy > z4 + 1e-14) {            // convex vertex in V_loc
-                RowVectorXd r(5); r << ax+z4, ay+z4, ax, ay, z4;
+                RowVectorXd r(PROJECTION_X_ELEMENTS); r << ax+z4, ay+z4, ax, ay, z4;
                 px_rows.push_back(r);
             }
         }
@@ -146,11 +148,11 @@ double H_stat_2s_2d_cpp(const MatrixXd &x, const MatrixXd &y, double tol)
             if (z1b != z4b) {
                 const double zyb = z_yx_at(xi, mx);
                 if (z1b > zyb) {
-                    RowVectorXd r(5); r << x1(xi)+z1b, M+z1b, x1(xi), M, z1b;
+                    RowVectorXd r(PROJECTION_X_ELEMENTS); r << x1(xi)+z1b, M+z1b, x1(xi), M, z1b;
                     px_rows.push_back(r);
                 }
                 if (zyb > z4b + 1e-14) {
-                    RowVectorXd r(5); r << x1(xi)+z4b, M+z4b, x1(xi), M, z4b;
+                    RowVectorXd r(PROJECTION_X_ELEMENTS); r << x1(xi)+z4b, M+z4b, x1(xi), M, z4b;
                     px_rows.push_back(r);
                 }
             }
@@ -163,11 +165,11 @@ double H_stat_2s_2d_cpp(const MatrixXd &x, const MatrixXd &y, double tol)
         if (z1b != z4b) {
             const double zyb = z_yx_at(mx, yi);
             if (z1b > zyb) {
-                RowVectorXd r(5); r << M+z1b, x2(yi)+z1b, M, x2(yi), z1b;
+                RowVectorXd r(PROJECTION_X_ELEMENTS); r << M+z1b, x2(yi)+z1b, M, x2(yi), z1b;
                 px_rows.push_back(r);
             }
             if (zyb > z4b + 1e-14) {
-                RowVectorXd r(5); r << M+z4b, x2(yi)+z4b, M, x2(yi), z4b;
+                RowVectorXd r(PROJECTION_X_ELEMENTS); r << M+z4b, x2(yi)+z4b, M, x2(yi), z4b;
                 px_rows.push_back(r);
             }
         }
@@ -197,14 +199,14 @@ double H_stat_2s_2d_cpp(const MatrixXd &x, const MatrixXd &y, double tol)
             const double z3 = z_y_at(2*xi,   2*yi+1);
             const double z4 = z_y_at(2*xi,   2*yi  );
             if (z1==z2 || z1==z3) continue;
-            { RowVectorXd r(6); r<<b1+z2,b2+z2,b1,b2,z2,2.0; py_rows.push_back(r); }
+            { RowVectorXd r(PROJECTION_Y_ELEMENTS); r<<b1+z2,b2+z2,b1,b2,z2,2.0; py_rows.push_back(r); }
             if (z4!=z2) {
-                { RowVectorXd r(6); r<<b1+z4,b2+z4,b1,b2,z4,4.0; py_rows.push_back(r); }
+                { RowVectorXd r(PROJECTION_Y_ELEMENTS); r<<b1+z4,b2+z4,b1,b2,z4,4.0; py_rows.push_back(r); }
                 if (z2!=z3) {
-                    { RowVectorXd r(6); r<<b1+z3,b2+z3,b1,b2,z3,3.0; py_rows.push_back(r); }
+                    { RowVectorXd r(PROJECTION_Y_ELEMENTS); r<<b1+z3,b2+z3,b1,b2,z3,3.0; py_rows.push_back(r); }
                 }
             }
-            { RowVectorXd r(6); r<<b1+z1,b2+z1,b1,b2,z1,1.0; py_rows.push_back(r); }
+            { RowVectorXd r(PROJECTION_Y_ELEMENTS); r<<b1+z1,b2+z1,b1,b2,z1,1.0; py_rows.push_back(r); }
         }
     }
     MatrixXd projection_y = rows_to_matrix(py_rows, 6);
@@ -213,229 +215,9 @@ double H_stat_2s_2d_cpp(const MatrixXd &x, const MatrixXd &y, double tol)
 }
 
 // [[Rcpp::export]]
-double H_stat_2s_2d(NumericMatrix x_r, NumericMatrix y_r, double tol = 1e-6)
+double H_stat_2s_2d(NumericMatrix x, NumericMatrix y, double tol = 1e-6)
 {
-    return H_stat_2s_2d_cpp(as<MatrixXd>(x_r), as<MatrixXd>(y_r), tol);
+    return H_stat_2s_2d_cpp(as<MatrixXd>(x), as<MatrixXd>(y), tol);
 }
 
 
-
-/*
-// Hausdorff2d.cpp
-//
-// Implements H_stat_2s_2d_cpp: given two independent bivariate samples
-// x (m x 2) and y (n x 2), returns the Hausdorff distance H(F^c_m, G^c_n)
-// between their bivariate empirical CDF surfaces under the Chebyshev metric.
-//
-// The projection matrices fed to hsearch() are built entirely from direct
-// bivariate ECDF counting, avoiding the fastCDF grid-ordering dependency
-// present in the original R version.
-//
-// Column layouts (0-indexed) expected by hsearch():
-//   projection_x  [proj1, proj2, loc1, loc2, z]         (5 cols)
-//   projection_y  [proj1, proj2, loc1, loc2, z, type]   (6 cols)
-// where proj_i = loc_i + z for both matrices.
-//
-// Algorithm reference: Appendix A of Dimitrova, Jia & Kaishev (2025).
-
-#include <Rcpp.h>
-#include <RcppEigen.h>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include "Hausdorff2d.h"
-#include "Hausdorffsearch.h"
-
-// [[Rcpp::depends(RcppEigen)]]
-
-using namespace Rcpp;
-using namespace Eigen;
-
-// -----------------------------------------------------------------------------
-// Private helpers - internal to this translation unit only
-// -----------------------------------------------------------------------------
-
-/// \brief Bivariate ECDF: fraction of rows of s with s[k,0]<=a AND s[k,1]<=b
-static inline double becdf(const MatrixXd &s, double a, double b)
-{
-    int n = s.rows(), cnt = 0;
-    for (int k = 0; k < n; ++k)
-        cnt += (s(k, 0) <= a && s(k, 1) <= b);
-    return static_cast<double>(cnt) / n;
-}
-
-/// \brief Append one row to a dynamically growing matrix
-static inline void push_row(MatrixXd &mat, const RowVectorXd &row)
-{
-    mat.conservativeResize(mat.rows() + 1, NoChange);
-    mat.bottomRows(1) = row;
-}
-
-// -----------------------------------------------------------------------------
-// Core - Eigen implementation
-// -----------------------------------------------------------------------------
-
-double H_stat_2s_2d_cpp(const MatrixXd &x, const MatrixXd &y, double tol)
-{
-    const int mx = x.rows(), my = y.rows();
-
-    // Sorted marginal vectors of x
-    VectorXd x1 = x.col(0), x2 = x.col(1);
-    std::sort(x1.data(), x1.data() + mx);
-    std::sort(x2.data(), x2.data() + mx);
-
-    // Sorted marginal vectors of y
-    VectorXd y1 = y.col(0), y2 = y.col(1);
-    std::sort(y1.data(), y1.data() + my);
-    std::sort(y2.data(), y2.data() + my);
-
-    // Truncation boundary (same formula as R: round(max) + 2.5)
-    const double M = std::round(std::max(x.maxCoeff(), y.maxCoeff())) + 2.5;
-
-    // -- projection_x : 5 columns ---------------------------------------------
-    // Built from the omnidirectional jumps of F_m (upper curve).
-    // For each jump location (ax, ay) of F_m up to two rows may be emitted:
-    //   concave vertex: (ax+z1, ay+z1, ax, ay, z1)   when z1 > zy
-    //   convex  vertex: (ax+z4, ay+z4, ax, ay, z4)   when zy > z4+eps
-    //                                                  AND |z4-z3| > eps
-    // where z1=Fm(ax,ay), z2=Fm(ax,ay-tol), z3=Fm(ax-tol,ay),
-    //       z4=Fm(ax-tol,ay-tol), zy=Gn(ax,ay).
-    // -------------------------------------------------------------------------
-    MatrixXd projection_x(0, 5);
-
-    for (int xi = 0; xi < mx; ++xi)
-    {
-        const double ax = x1[xi];
-
-        for (int yi = 0; yi < mx; ++yi)
-        {
-            const double ay = x2[yi];
-
-            const double z1 = becdf(x, ax,       ay      );
-            const double z2 = becdf(x, ax,       ay - tol);
-            const double z3 = becdf(x, ax - tol, ay      );
-            const double z4 = becdf(x, ax - tol, ay - tol);
-
-            // Omnidirectional jump: F_m must jump in both directions
-            if (z1 == z2 || z1 == z3) continue;
-
-            const double zy = becdf(y, ax, ay);
-
-            if (z1 > zy) {
-                RowVectorXd row(5);
-                row << ax + z1, ay + z1, ax, ay, z1;
-                push_row(projection_x, row);
-            }
-            if (zy > z4 + 1e-14 && std::abs(z4 - z3) > 1e-14) {
-                RowVectorXd row(5);
-                row << ax + z4, ay + z4, ax, ay, z4;
-                push_row(projection_x, row);
-            }
-        }
-
-        // -- Boundary at (x1[xi], M) ------------------------------------------
-        // The truncation boundary M introduces additional jump vertices along
-        // each boundary face (Lemma 2.3, Appendix A).  Along the face x2 = M
-        // variation is only in the first coordinate, so z2 and z3 are
-        // synthesised as the midpoint (no independent saddle value available).
-        {
-            const double z1b = becdf(x, ax,       M);
-            const double z4b = becdf(x, ax - tol, M);
-            if (z1b != z4b) {
-                const double zyb = becdf(y, ax, M);
-                if (z1b > zyb) {
-                    RowVectorXd row(5);
-                    row << ax + z1b, M + z1b, ax, M, z1b;
-                    push_row(projection_x, row);
-                }
-                // |z4b - z_mid| > 0 whenever z1b != z4b (condition above)
-                if (zyb > z4b + 1e-14) {
-                    RowVectorXd row(5);
-                    row << ax + z4b, M + z4b, ax, M, z4b;
-                    push_row(projection_x, row);
-                }
-            }
-        }
-    }
-
-    // -- Boundary at (M, x2[yi]) ----------------------------------------------
-    for (int yi = 0; yi < mx; ++yi)
-    {
-        const double ay  = x2[yi];
-        const double z1b = becdf(x, M, ay      );
-        const double z4b = becdf(x, M, ay - tol);
-        if (z1b != z4b) {
-            const double zyb = becdf(y, M, ay);
-            if (z1b > zyb) {
-                RowVectorXd row(5);
-                row << M + z1b, ay + z1b, M, ay, z1b;
-                push_row(projection_x, row);
-            }
-            if (zyb > z4b + 1e-14) {
-                RowVectorXd row(5);
-                row << M + z4b, ay + z4b, M, ay, z4b;
-                push_row(projection_x, row);
-            }
-        }
-    }
-
-    // -- projection_y : 6 columns ---------------------------------------------
-    // Built from the omnidirectional jumps of G_n (lower curve).
-    // For each jump location (b1, b2) up to four rows may be emitted:
-    //   type 2 (saddle along x2,  z2): always
-    //   type 4 (convex vertex,    z4): if z4 != z2
-    //   type 3 (saddle along x1,  z3): if z4 != z2 AND z2 != z3
-    //   type 1 (concave vertex,   z1): always
-    // where z1=Gn(b1,b2), z2=Gn(b1,b2-tol), z3=Gn(b1-tol,b2),
-    //       z4=Gn(b1-tol,b2-tol).
-    // The type column (col 5) is read by hsearch() to select the distance
-    // formula: type 1 -> |z_x - z_y|; types 2/3 -> coordinate difference.
-    // -------------------------------------------------------------------------
-    MatrixXd projection_y(0, 6);
-
-    for (int xi = 0; xi < my; ++xi)
-    {
-        const double b1 = y1[xi];
-
-        for (int yi = 0; yi < my; ++yi)
-        {
-            const double b2 = y2[yi];
-
-            const double z1 = becdf(y, b1,       b2      );
-            const double z2 = becdf(y, b1,       b2 - tol);
-            const double z3 = becdf(y, b1 - tol, b2      );
-            const double z4 = becdf(y, b1 - tol, b2 - tol);
-
-            // Omnidirectional jump condition
-            if (z1 == z2 || z1 == z3) continue;
-
-            { RowVectorXd row(6); row << b1+z2, b2+z2, b1, b2, z2, 2.0;
-              push_row(projection_y, row); }
-
-            if (z4 != z2) {
-                { RowVectorXd row(6); row << b1+z4, b2+z4, b1, b2, z4, 4.0;
-                  push_row(projection_y, row); }
-                if (z2 != z3) {
-                    { RowVectorXd row(6); row << b1+z3, b2+z3, b1, b2, z3, 3.0;
-                      push_row(projection_y, row); }
-                }
-            }
-
-            { RowVectorXd row(6); row << b1+z1, b2+z1, b1, b2, z1, 1.0;
-              push_row(projection_y, row); }
-        }
-    }
-
-    return hsearch(projection_x, projection_y);
-}
-
-// -----------------------------------------------------------------------------
-// Rcpp wrapper
-// -----------------------------------------------------------------------------
-
-// [[Rcpp::export]]
-double H_stat_2s_2d(NumericMatrix x_r, NumericMatrix y_r, double tol = 1e-6)
-{
-    return H_stat_2s_2d_cpp(as<MatrixXd>(x_r), as<MatrixXd>(y_r), tol);
-}
-*/
