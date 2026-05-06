@@ -113,7 +113,7 @@ Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric''.
 \code{\link{H_test_2s_1d}}.
 }
 
-\examples{
+\examples{\donttest{
 ## Bivariate H test: both samples from N(0,I) (null is true)
 set.seed(1)
 xm <- matrix(rnorm(100), ncol = 2)
@@ -140,4 +140,4 @@ set.seed(4)
 H_test_2s_2d(xm, ym, nboots = 1000)
 Hausdorff_test(xm, ym, nboots = 1000,
                scale_psi = c(0.99, 0.95), scale_nperms = 500)
-}
+}}
