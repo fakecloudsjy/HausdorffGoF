@@ -213,9 +213,12 @@ res$method    # "... (scale-tuned)"
 res$sigma
 res$scale_psi
 
+
+\donttest{
 ## ---- One-sample, Monte Carlo p-value, scale-tuned: body --------------------
 Hausdorff_test(x, null_e, method = "mc", nboots = 1000,
                scale_psi = c(0.70, 0.40))
+}
 
 ## ---- One-sample, only CDF and pdf supplied (Newton-Raphson sigma*) ---------
 null_cdf_only <- distribution(CDF = function(t) pexp(t, rate = 1),
@@ -227,6 +230,7 @@ set.seed(2)
 x1 <- rnorm(40);  x2 <- rnorm(40)
 Hausdorff_test(x1, x2)
 
+
 ## ---- Two-sample univariate, scale-tuned ------------------------------------
 res2 <- Hausdorff_test(x1, x2, scale_psi = c(0.99, 0.95), scale_nperms = 500)
 res2$sigma
@@ -235,6 +239,7 @@ res2$sigma
 set.seed(3)
 Hausdorff_test(rnorm(8), rnorm(8), method = "exact")
 
+\donttest{
 ## ---- Two-sample bivariate, no scaling --------------------------------------
 set.seed(4)
 xm <- matrix(rnorm(100), ncol = 2)
@@ -248,4 +253,4 @@ res3$sigma   # length-2 vector, one sigma* per coordinate
 
 ## ---- Two-sample bivariate, order-invariant statistic -----------------------
 Hausdorff_test(xm, ym, nboots = 1000, invariant = TRUE)
-}
+}}
