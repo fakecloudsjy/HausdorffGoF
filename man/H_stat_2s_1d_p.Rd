@@ -38,7 +38,7 @@ A single numeric value: the Hausdorff distance \eqn{H(F^{c}_{m}, G^{c}_{n})}{}.
 \references{
 Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026b). ``On a Two-Sample
 Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric''.
-\emph{Submitted to the Annals of Statistics}.
+\emph{Submitted}.
 }
 
 \seealso{

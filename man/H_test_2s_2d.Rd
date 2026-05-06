@@ -99,12 +99,12 @@ objects.}
 }
 
 \references{
+Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026a). ``On a One
+Sample Goodness-of-fit Test Based on the Hausdorff Metric''. \emph{Submitted}.
+
 Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026b). ``On a Two-Sample
 Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric''.
 \emph{Submitted to the Annals of Statistics}.
-
-Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026a). ``On a One
-Sample Goodness-of-fit Test Based on the Hausdorff Metric''. \emph{Submitted}.
 }
 
 \seealso{

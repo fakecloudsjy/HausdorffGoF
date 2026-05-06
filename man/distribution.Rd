@@ -64,6 +64,11 @@ vectorised and (for \code{CDFinverse}) boundary-extended forms.  A
 \code{print} method is provided.
 }
 
+\references{
+Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026a). ``On a One Sample
+Goodness-of-fit Test Based on the Hausdorff Metric''. \emph{Submitted}.
+}
+
 \seealso{
 \code{\link{Hausdorff_test}},
 \code{\link{Hausdorff_stat}}.

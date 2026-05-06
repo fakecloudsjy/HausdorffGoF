@@ -204,12 +204,12 @@ Maintainer: Yun Jia \email{yunjia2019@gmail.com}
 }
 
 \references{
+Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026a). ``On a One Sample
+Goodness-of-fit Test Based on the Hausdorff Metric''. \emph{Submitted}.
+
 Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026b). ``On a Two-Sample
 Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric''.
 \emph{Submitted}.
-
-Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026a). ``On a One Sample
-Goodness-of-fit Test Based on the Hausdorff Metric''. \emph{Submitted}.
 
 Dimitrina S. Dimitrova, Vladimir K. Kaishev, Senren Tan (2020). ``Computing the
 Kolmogorov-Smirnov Distribution When the Underlying CDF is Purely Discrete,
