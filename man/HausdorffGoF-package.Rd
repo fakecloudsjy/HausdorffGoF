@@ -1,11 +1,25 @@
 \name{HausdorffGoF-package}
 \alias{HausdorffGoF-package}
-\title{Computing P-Values of the One-Sample and Two-Sample Hausdorff Goodness-of-Fit Test}
+\alias{HausdorffGoF}
+\title{One- and Two-Sample Hausdorff Goodness-of-Fit Test}
 
 \description{
 This package computes the test statistic and p-values of the one-sample and
 two-sample Hausdorff (\eqn{H}{}) goodness-of-fit test, proposed by Dimitrova,
-Jia, and Kaishev (2026a) and Dimitrova, Jia, and Kaishev (2026b) respectively.  Exploiting the scale dependence of \eqn{H}{}, it is shown that sensitivity of the \eqn{H}{} test can be controlled, making it left-tail, body or right-tail sensitive and allowing its power to be optimized. It is also demonstrated based on simulated examples that, in terms of power, the \eqn{H}{} test significantly outperforms the classical tests such as the Kolmogorov-Smirnov, Cramer von Mises and Anderson Darling tests, especially when the right tail of the distribution is targeted. Furthermore, it has also been shown based on numerical examples that the power of the two-sample \eqn{H}{} test is close to the power of the Wasserstein test. This makes  the \eqn{H}{} test an appealing alternative to existing ones, especially when the tail of the distribution is important, such as finance, economics, astronomy, extreme value theory, etc.
+Jia, and Kaishev (2026a) and Dimitrova, Jia, and Kaishev (2026b) respectively.
+Exploiting the scale dependence of \eqn{H}{}, it is shown that the sensitivity
+of the \eqn{H}{} test can be controlled, making it left-tail, central body or
+right-tail sensitive and thereby allowing its power to be optimized for the
+problem at hand.
+
+Simulation studies further demonstrate that, in terms of statistical power, the
+\eqn{H}{} test substantially outperforms classical goodness-of-fit tests such as
+the Kolmogorov-Smirnov, Cramer-von Mises, and Anderson-Darling tests. The
+improvement is particularly pronounced when discrepancies in the right tail of
+the distribution are of primary interest, as is often the case in finance and
+insurance, economics, the natural sciences, and extreme value theory. These
+results make the \eqn{H}{} test a compelling and effective alternative to
+existing testing procedures.
  
 In the \bold{one-sample} setting, given a random sample
 \eqn{{X_{1}, \ldots, X_{n}}}{} of size \eqn{n}{} with empirical cdf
@@ -20,7 +34,7 @@ statistic is defined as the Hausdorff distance between the planar curves (comple
 
 In the \bold{two-sample} setting, the null hypothesis is \eqn{H_{0}: F(x) = G(x)}{} for all \eqn{x \in R^{k}}{}, against the 
 alternative \eqn{H_{1}: F(x) \neq G(x)}{} for at least one \eqn{x}{}, where \eqn{F(x)}{} and \eqn{G(x)}{} are unknown \eqn{k}{}-dimensional cdfs. 
-The hypothesis \eqn{H_1}{} is tested based on two independent random samples
+The null hypothesis \eqn{H_{0}}{} is tested using two independent random samples
 \eqn{{X_{1}, \ldots, X_{m}}}{} and \eqn{{Y_{1}, \ldots, Y_{n}}}{} of sizes
 \eqn{m}{} and \eqn{n}{} from \eqn{F(x)}{} and \eqn{G(x)}{}
 respectively. 
@@ -51,7 +65,7 @@ permutation of the \eqn{H}{} test (see functions \code{\link{H_test_2s_1d}} and 
 
 A key feature of the \eqn{H}{} test is that its p-values are \emph{not}
 scale-invariant. This property is used to make the test
-the left-tail or body or right-tail sensitive and correspondingly optimize the power of the test, This is achieved by rescaling the data with a scale parameter \eqn{\sigma > 0}{} that is selected as follows.
+the left-tail or body or right-tail sensitive and correspondingly optimize the power of the test. This is achieved by rescaling the data with a scale parameter \eqn{\sigma > 0}{} that is selected as follows.
 
 In the \bold{one-sample} case the scaled statistic is
 \eqn{\mathcal{H}_{n}(\sigma) = H(F^{c}_{\sigma}, F^{c}_{n,\sigma})}{}, where
@@ -106,7 +120,10 @@ For the \bold{two-sample} \eqn{H}{} test:
 \code{\link{H_test_2s_1d}} performs the
 univariate permutation test,
 \code{\link{H_stat_2s_1d_tr}} computes
-the univariate two-sample statistic via the C++ transformation method, and
+the univariate two-sample statistic via the C++ transformation method,
+\code{\link{H_stat_2s_1d_p}} computes
+the univariate two-sample statistic via the C++ projection method,
+\code{\link{H_test_2s_2d}} performs the bivariate permutation test, and
 \code{\link{H_stat_2s_2d}} computes the
 Hausdorff distance between two bivariate empirical cdfs.
 The \bold{unified interface}
