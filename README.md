@@ -151,6 +151,6 @@ If you use `HausdorffGoF` in a publication, please cite:
 
 ## License
 
-GPL (≥ 3). See [LICENSE](LICENSE) for details.
+GPL (≥ 3). See [LICENSE](https://github.com/fakecloudsjy/HausdorffGoF/tree/main/LICENSE.md) for details.
 
-This package includes C++ source code from the [StOpt library](https://gitlab.com/stochastic-control/StOpt) (Copyright © 2020 EDF — Électricité de France), used under the GNU Lesser General Public License v3 (LGPL-3).
+This package includes C++ source code from the [StOpt library](https://gitlab.com/stochastic-control/StOpt) (Copyright © 2020 EDF — Électricité de France), used under the GNU Lesser General Public License v3 (LGPL-3). Full copyright notices are available in [`inst/COPYRIGHTS`](https://github.com/fakecloudsjy/HausdorffGoF/tree/main/inst/COPYRIGHTS).
