@@ -30,7 +30,7 @@ statistic is defined as the Hausdorff distance between the planar curves (comple
 
 \deqn{H(F^{c}, F^{c}_{n}) =  \sup_{A \in F^{c}_{n}} \inf_{B \in F^{c}} \rho_{1}(A,B)= \sup_{A \in F^{c}} \inf_{B \in F^{c}_{n}} \rho_{1}(A,B) ,}{}
  where, \eqn{\rho_1(\cdot, \cdot)}{} is the Chebyshev
-(\eqn{\ell_{\infty}}{}) i.e., \eqn{\rho_{1}(A,B) = \max{|x_{A}-x_{B}|, |z_{A}-z_{B}|}}{}.
+(\eqn{\ell_{\infty}}{}) i.e., \eqn{\rho_{1}(A,B) = \max{|x_{A}-x_{B}|, |z_{A}-z_{B}|}}{}. 
 
 In the \bold{two-sample} setting, the null hypothesis is \eqn{H_{0}: F(x) = G(x)}{} for all \eqn{x \in R^{k}}{}, against the 
 alternative \eqn{H_{1}: F(x) \neq G(x)}{} for at least one \eqn{x}{}, where \eqn{F(x)}{} and \eqn{G(x)}{} are unknown \eqn{k}{}-dimensional cdfs. 
@@ -59,7 +59,7 @@ Kaishev 2026b) cases. Exact one-sample p-values are provided via a
 rectangle-probability representation (Theorem 4 of Dimitrova, Jia, and Kaishev
 2026a), evaluated in \eqn{O(n^{2}\log(n))}{} time using the Exact-KS-FFT method
 of Dimitrova, Kaishev, and Tan (2020) via
-\code{\link{ks_c_cdf_Rcpp}} from the package
+\code{\link[KSgeneral]{ks_c_cdf_Rcpp}} from the package
 \pkg{KSgeneral}. Two-sample p-values are obtained by applying exact or Monte Carlo
 permutation of the \eqn{H}{} test (see functions \code{\link{H_test_2s_1d}} and \code{\link{H_test_2s_2d}}).
 
@@ -134,6 +134,17 @@ one-sample, two-sample univariate, and two-sample bivariate cases in a single
 call. Null distributions are specified via
 \code{\link{distribution}}, which constructs a
 \code{"NullDist"} object bundling the cdf, quantile function, and density.
+}
+
+\arguments{
+  No arguments. This is a package-level documentation page.
+}
+
+\value{
+  No return value. This is a package-level documentation page. See the
+  individual function help pages (e.g. \code{\link{Hausdorff_test}},
+  \code{\link{Hausdorff_stat}}) for the return values of each exported
+  function.
 }
 
 \details{
@@ -231,6 +242,5 @@ Multivariate Goodness-of-Fit Test Based on the Hausdorff Metric''.
 Dimitrina S. Dimitrova, Vladimir K. Kaishev, Senren Tan (2020). ``Computing the
 Kolmogorov-Smirnov Distribution When the Underlying CDF is Purely Discrete,
 Mixed or Continuous''. \emph{Journal of Statistical Software}, \bold{95}(10):
-1--42. doi:10.18637/jss.v095.i10.
+1--42. \doi{10.18637/jss.v095.i10}.
 }
-

@@ -9,22 +9,26 @@ Authors@R: c(
            email = "yunjia2019@gmail.com",   role = c("aut", "cre")),
     person("Vladimir K.", "Kaishev",
            email = "Vladimir.Kaishev.1@citystgeorges.ac.uk", role = c("aut")))
-Description: Computes the test statistic and p-values of the one-sample and two-sample Hausdorff (H) goodness-of-fit tests proposed by Dimitrova, Jia, and Kaishev (2026a, 2026b). The H statistic measures the Hausdorff distance under the Chebyshev (l-infinity) metric, between the two cumulative distribution functions (cdfs) underlying the corresponding one-sample and two-sample null hypothesis. It coincides to the side length of the largest axis-aligned square (hypercube) inscribable between the two cdfs. The following cases are  covered: (i) one-sample, univariate; (ii) two-sample univariate; and (iii) two-sample bivariate.  Exact one-sample p-values are computed in O(n^2 log n) time via the 'Exact-KS-FFT' method of Dimitrova, Kaishev, and Tan (2020) <doi:10.18637/jss.v095.i10>; two-sample p-values are obtained by permutation. A key advantage of the H test is that its sensitivity can be directed towards the left tail, body, or right tail of the distribution by tuning a scale parameter sigma, and therefore maximizing its power which as shown numerically is significantly higher than the power of the classical tests such as the Kolmogorov-Smirnov,  Cramer-von Mises, and Anderson-Darling test, especially when the right tail of the distribution is targeted. The sensitivity of the test (left tail, body, or right tail) is governed by two parameters psi1 and psi2, whose values needs to be input. Then the optimal value of the scale parameter sigma is automatically computed.
+Description: Computes the test statistic and p-values of the one-sample and two-sample Hausdorff (H) goodness-of-fit tests. The H statistic measures the Hausdorff distance under the Chebyshev (l-infinity) metric, between the two cumulative distribution functions (cdfs) underlying the corresponding one-sample and two-sample null hypothesis. It coincides to the side length of the largest axis-aligned square (hypercube) that can be inscribed between the two cdfs. The following cases are covered: (i) one-sample, univariate; (ii) two-sample univariate; and (iii) two-sample bivariate.  Exact one-sample p-values are computed in O(n^2 log n) time via the 'Exact-KS-FFT' method of Dimitrova, Kaishev, and Tan (2020) <doi:10.18637/jss.v095.i10>; two-sample p-values are obtained by permutation. A key advantage of the H test is that its sensitivity can be directed towards the left tail, body, or right tail of the distribution by tuning a scale parameter sigma, and therefore maximizing its power which as shown numerically is significantly higher than the power of the classical tests such as the Kolmogorov-Smirnov,  Cramer-von Mises, and Anderson-Darling test, especially when the right tail of the distribution is targeted. The sensitivity of the test (left tail, body, or right tail) is governed by two parameters psi1 and psi2, whose values needs to be input. Then the optimal value of the scale parameter sigma is automatically computed.
 Depends: R (>= 3.5.0)
-Imports: Rcpp (>= 0.12.12), KSgeneral, stats, utils
+Imports: Rcpp (>= 0.12.12), KSgeneral, stats, utils, withr
 LinkingTo: Rcpp, RcppEigen
 License: GPL (>= 3)
 URL: https://github.com/fakecloudsjy/HausdorffGoF
 Encoding: UTF-8
-Copyright: Copyright (C) 2020 EDF - Electricite de France, for code
-        from the StOpt library
-        (https://gitlab.com/stochastic-control/StOpt).
-Note: Includes code from the StOpt library
-        (https://gitlab.com/stochastic-control/StOpt), licensed under
-        the GNU Lesser General Public License (LGPL-3).
+Copyright: Dimitrina S. Dimitrova, Yun Jia, and Vladimir K. Kaishev own
+        the copyright of the original R and C++ code in this package.
+        Portions of the C++ source code (src/fastCDF.cpp,
+        src/fastCDF.h, src/fastCDFOnSample.cpp, src/fastCDFOnSample.h,
+        src/nDDominanceAlone.cpp) are derived from the StOpt library
+        and are Copyright (C) 2020 EDF - Electricite de France,
+        published under the GNU Lesser General Public License (LGPL-3).
+        See the file inst/COPYRIGHTS for full details.
 NeedsCompilation: yes
-Packaged: 2026-05-06 11:31:32 UTC; Yun
+Packaged: 2026-05-11 22:04:13 UTC; Yun
 Author: Dimitrina S. Dimitrova [aut],
   Yun Jia [aut, cre],
   Vladimir K. Kaishev [aut]
 Maintainer: Yun Jia <yunjia2019@gmail.com>
+Repository: CRAN
+Date/Publication: 2026-05-15 20:40:14 UTC

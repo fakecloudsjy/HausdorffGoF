@@ -36,15 +36,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // H_stat_2s_2d
-double H_stat_2s_2d(NumericMatrix x_r, NumericMatrix y_r, double tol);
-RcppExport SEXP _HausdorffGoF_H_stat_2s_2d(SEXP x_rSEXP, SEXP y_rSEXP, SEXP tolSEXP) {
+double H_stat_2s_2d(NumericMatrix x, NumericMatrix y, double tol);
+RcppExport SEXP _HausdorffGoF_H_stat_2s_2d(SEXP xSEXP, SEXP ySEXP, SEXP tolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x_r(x_rSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y_r(y_rSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
     Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
-    rcpp_result_gen = Rcpp::wrap(H_stat_2s_2d(x_r, y_r, tol));
+    rcpp_result_gen = Rcpp::wrap(H_stat_2s_2d(x, y, tol));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -4,6 +4,7 @@ importFrom(Rcpp, evalCpp)
 importFrom("KSgeneral", "ks_c_cdf_Rcpp")
 importFrom("stats", "ecdf", "optim", "quantile", "runif", "uniroot")
 importFrom("utils", "combn", "write.table")
+importFrom("withr", "with_dir")
 useDynLib(HausdorffGoF, .registration = TRUE)
 
 S3method(Hausdorff_test, NullDist)

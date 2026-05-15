@@ -96,10 +96,15 @@ H_test_c_cdf = function(q, n, CDF, CDFinverse = NULL, pdf = NULL,
   f_a[f_a < 0] = 0
   f_b[f_b > 1] = 1
   df <- data.frame(rbind(f_b, f_a))
-  write.table(df, "Boundary_Crossing_Time.txt",
+  
+  tmp_file <- file.path(tempdir(), "Boundary_Crossing_Time.txt")
+  write.table(df, tmp_file,
               sep = ", ", row.names = FALSE, col.names = FALSE)
-  PVAL <- KSgeneral::ks_c_cdf_Rcpp(n)
-  file.remove("Boundary_Crossing_Time.txt")
+  on.exit(unlink(tmp_file), add = TRUE)
+  
+  PVAL <- withr::with_dir(tempdir(), KSgeneral::ks_c_cdf_Rcpp(n))
+  
+  unlink(tmp_file)
   return(PVAL)
 }
 

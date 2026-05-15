@@ -1,0 +1,27 @@
+The HausdorffGoF package contains code derived from the StOpt library
+(https://gitlab.com/stochastic-control/StOpt).
+
+The following source files are derived from StOpt:
+
+  src/fastCDF.cpp
+  src/fastCDF.h
+  src/fastCDFOnSample.cpp
+  src/fastCDFOnSample.h
+  src/nDDominanceAlone.cpp
+
+These files carry the following copyright notice:
+
+  Copyright (C) 2020 EDF - Electricite de France
+  All Rights Reserved
+  This code is published under the GNU Lesser General Public License
+  (GNU LGPL), version 3 or later.
+  See <https://www.gnu.org/licenses/lgpl-3.0.html> for the full licence text.
+  The StOpt library is available at:
+  <https://gitlab.com/stochastic-control/StOpt>
+
+All other R and C++ source files in this package are:
+
+  Copyright (C) 2024--2026 Dimitrina S. Dimitrova, Yun Jia,
+                            and Vladimir K. Kaishev
+
+and are released under the GPL (>= 3) licence as stated in the DESCRIPTION file.

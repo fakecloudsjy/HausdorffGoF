@@ -1,12 +1,6 @@
 // Copyright (C) 2020 EDF
 // All Rights Reserved
 // This code is published under the GNU Lesser General Public License (GNU LGPL)
-//
-// Modified by Dimitrina S. Dimitrova, Yun Jia, Vladimir K. Kaishev (2026):
-//   Added Rcpp/RcppEigen headers and Rcpp::depends attribute for R integration.
-//   Added fastCDFOnSample_Rcpp(): an Rcpp-exported wrapper that accepts a
-//   NumericMatrix from R, constructs a unit-weight vector, calls
-//   fastCDFOnSample(), and returns the result as a NumericVector.
 #include <RcppEigen.h>
 #include <Rcpp.h>
 #include "nDDominanceAlone.h"
