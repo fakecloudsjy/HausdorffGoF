@@ -18,6 +18,10 @@ The H statistic measures the Hausdorff distance between the completed graphs of 
 
 A key advantage of the H test is that its p-values are **not scale-invariant**. This property can be exploited to direct the test's sensitivity towards the left tail, body, or right tail of the distribution by tuning a scale parameter σ. Using this, the H test significantly outperforms classical alternatives such as Kolmogorov-Smirnov, Cramér-von Mises, and Anderson-Darling in the tails, and achieves power comparable to the Wasserstein test. This makes it particularly appealing in **finance, economics, astronomy, and extreme value theory**.
 
+## Documentation
+
+The full package vignette can be found [here](https://cran.r-project.org/web/packages/HausdorffGoF/refman/HausdorffGoF.html).
+
 ## Installation
 
 The package is available on CRAN and can be installed with:
