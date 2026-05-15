@@ -50,6 +50,6 @@ jobs:
         run: |
           rcmdcheck::rcmdcheck(
             args     = c("--no-manual", "--as-cran"),
-            error_on = "warning"        # fail on warnings too
+            error_on = "error"        # fail on warnings too
           )
         shell: Rscript {0}
