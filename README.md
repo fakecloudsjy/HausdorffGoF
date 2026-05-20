@@ -13,7 +13,7 @@
 
 The package `HausdorffGoF` computes the test statistic and p-values of the one-sample and two-sample Hausdorff (H) goodness-of-fit tests proposed by Dimitrova, Jia, and Kaishev (2026a, 2026b).
 
-The H statistic measures the Hausdorff distance between the completed graphs of two cumulative distribution functions (cdfs) under the Chebyshev (l∞) metric. Geometrically, it equals the side length of the largest axis-aligned square (or hypercube in higher dimensions) that can be inscribed in the region between the two cdf curves; in the univariate case this coincides with the Lévy metric. Three testing settings are covered:
+The H statistic measures the Hausdorff distance between the completed graphs of two cumulative distribution functions (cdfs) under the Chebyshev (l∞) metric. Geometrically, it equals the side length of the largest axis-aligned square (or hypercube in higher dimensions) that can be inscribed in the region between the two cdf curves. Three testing settings are covered:
 
 - **One-sample**: test whether a random comes from a fully specified continuous null cdf *F(x)*
 - **Two-sample univariate**: tests whether two independent univariate samples share the same unknown distribution
