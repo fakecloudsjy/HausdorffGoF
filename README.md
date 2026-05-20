@@ -1,9 +1,12 @@
 # HausdorffGoF
 
 <!-- badges: start -->
+[![Downloads (total)](https://cranlogs.r-pkg.org/badges/grand-total/HausdorffGoF)](https://cran.r-project.org/package=HausdorffGoF)
+[![Downloads (monthly)](https://cranlogs.r-pkg.org/badges/HausdorffGoF)](https://cran.r-project.org/package=HausdorffGoF)
+[![Downloads (weekly)](https://cranlogs.r-pkg.org/badges/last-week/HausdorffGoF)](https://cran.r-project.org/package=HausdorffGoF)
 [![CRAN status](https://www.r-pkg.org/badges/version/HausdorffGoF)](https://CRAN.R-project.org/package=HausdorffGoF)
-[![R-CMD-check](https://github.com/fakecloudsjy/HausdorffGoF/actions/workflows/r.yml/badge.svg)](https://github.com/fakecloudsjy/HausdorffGoF/actions/workflows/r.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![R-CMD-check](https://github.com/fakecloudsjy/HausdorffGoF/actions/workflows/r.yml/badge.svg)](https://github.com/fakecloudsjy/HausdorffGoF/actions/workflows/r.yml)
 <!-- badges: end -->
 
 ## Overview
