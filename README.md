@@ -19,7 +19,7 @@ The H statistic measures the Hausdorff distance between the completed graphs of 
 - **Two-sample univariate**: tests whether two independent univariate samples share the same unknown distribution
 - **Two-sample bivariate**: extends the two-sample test to two-dimensional data
 
-A key advantage of the H test is that its p-values are **not scale-invariant**. This property can be exploited to direct the test's sensitivity towards the left tail, body, or right tail of the distribution by tuning a scale parameter σ. Using this, the H test significantly outperforms classical alternatives such as Kolmogorov-Smirnov, Cramér-von Mises, and Anderson-Darling in the tails, and achieves power comparable to the Wasserstein test. This makes it particularly appealing in **finance, economics, astronomy, and extreme value theory**.
+A key advantage of the H test is its scale-dependence, which allows targeting its sensitivity to either the tails or body of the distribution, leading to improving its statistical power. Empirical results show that in terms of statistical power, the H test significantly outperforms classical goodness-of-fit tests such as Kolmogorov-Smirnov, Cramér-von Mises, and Anderson-Darling tests, making it highly attractive for practical applications, especially in areas where the tail behavior is targeted.
 
 ## Documentation
 
